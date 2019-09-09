@@ -13,6 +13,8 @@ def encrypt():
     pad_key = getPadKey(key)
 
     # use polybius square to get key for columnar transposition
+    col_key = cipherToValPoly(poly_key)
+
     # encrypt plaintext with columnar transposition, no padding (result is cipher1)
     # use polybius square to find numerical representation for each letter in cipher1
     # convert each of these numbers from decimal to 6-bit binary
@@ -29,7 +31,7 @@ def decrypt():
     # process key into part for polybius and one-time pad
     poly_key = getPolyKey(key)
     pad_key = getPadKey(key)
-    
+
     # convert ciphertext from decimal to 6-bit binary
     # convert one-time pad value from decimal to 6-bit binary
     # do a one-time pad with previous values
