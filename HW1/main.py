@@ -5,20 +5,55 @@ from utils import *
 
 # prompt for user input
 # user may want to encrypt or decrypt a message
-print("Welcome to our encrpytion/decryption program")
-print()
-what_crypt = 1 # eval(input("Enter 1 to encrypt and 0 to decrypt: "))
-print()
+cryption = input("Do you want to encrypt or decrypt?(E/d): ")
+while cryption not in { 'E', 'e', 'D', 'd', 'Q', 'q' }:
+    cryption = input("Invalid input. Type 'E' if you wish to encrypt and 'D' if you wish to decrypt. Type 'Q' to quit: ")
 
-# encrypting
-if what_crypt == 1:
-    # acquire key and plaintext
-    plain_text = input("Please enter the message you would like to encode: ")
-    key = input("Please enter the key: ")
+if cryption not in { 'Q', 'q' }:
+    key = input("Enter the key: ")
+    if cryption in { 'E', 'e' }:
+        #Ecrypt
+        plaintext = input("Enter the plaintext: ")
 
-    # process key into part for polybius and one-time pad
-    poly_key = getPolyKey(key)
-    pad_key = getPadKey(key)
+# steps to deal with encryption
+# acquire key and plaintext
+# process key into part for polybius and one-time pad
+# use polybius square to get key for columnar transposition
+# encrypt plaintext with columnar transposition, no padding (result is cipher1)
+# use polybius square to find numerical representation for each letter in cipher1
+# convert each of these numbers from decimal to 6-bit binary
+# convert one-time-pad value from decimal to 6-bit binary
+# use one-time pad using previous values
+# convert resulting cipher from 6-bit binary to decimal
+# return the decimal number to the user as the completed ciphertext
+
+    else:
+        #Decrypt
+        ciphertext = input("Enter the ciphertext: ")
+
+# steps to deal with encryption
+# acquire key and plaintext
+# process key into part for polybius and one-time pad
+# use polybius square to get key for columnar transposition
+# encrypt plaintext with columnar transposition, no padding (result is cipher1)
+# use polybius square to find numerical representation for each letter in cipher1
+# convert each of these numbers from decimal to 6-bit binary
+# convert one-time-pad value from decimal to 6-bit binary
+# use one-time pad using previous values
+# convert resulting cipher from 6-bit binary to decimal
+# return the decimal number to the user as the completed ciphertext
+
+# steps to deal with decryption
+# acquire key and ciphertext
+# process key into part for polybius and one-time pad
+# convert ciphertext from decimal to 6-bit binary
+# convert one-time pad value from decimal to 6-bit binary
+# do a one-time pad with previous values
+# convert 6-bit binary to decimal (should all be 2 digit values)
+# use polybius square on created decimal values, get letters
+# use polybius square to get key for columnar transposition
+# reverse columnar transposition using values from previous two steps
+# return plaintext to user
 
     # use polybius square to get key for columnar transposition
     # encrypt plaintext with columnar transposition, no padding (result is cipher1)
