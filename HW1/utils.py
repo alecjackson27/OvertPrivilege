@@ -9,7 +9,7 @@ def getPadKey(key):
 # one-time pad, exclusive OR with key and value
 # given cipher (edge numbers), get value (inside numbers/letters) out of polybius square
 # given values (inside numbers/letters), get cipher (edge numbers) out of polybius square
-#   may want two maps, one where the key is the two-digit key, another where the key is the value
+#   may want two maps, one where the key is the two-digit key, another where the key is the value?
 #   whoever writes that part can decide what they want to do
 keyToValuePolySquare = {'00':'E', '01':'2', '02':'R', '03':'F', '04':'Z', '05':'M'}
 keyToValuePolySquare.update({'10':'Y', '11':'H', '12':'3', '13':'0', '14':'B', '15':'7'})
@@ -32,4 +32,17 @@ def cipherToValPoly(cipher):
 
 # convert from 6-bit binary to decimal
 # convert from decimal to 6-bit binary
-#   maybe there's a library function for that, but 6 bit is weird so I'm not gonna go looking. If you just know one, use it.
+def decimalToBinary(deci):
+    converted = bin(deci).replace('0b', '')
+    while len(converted) < 6:
+        converted = '0' + converted
+    return converted
+
+def binaryToDecimal(binary):
+    decimal, i = 0, 0
+    while binary != 0:
+        dec = binary % 10
+        decimal = decimal + (dec * pow(2,i))
+        binary = binary // 10
+        i += 1
+    return decimal
