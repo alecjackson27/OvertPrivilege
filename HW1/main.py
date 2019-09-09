@@ -11,6 +11,19 @@ if cryption not in { 'Q', 'q' }:
     if cryption in { 'E', 'e' }:
         #Ecrypt
         plaintext = input("Enter the plaintext: ")
+
+# steps to deal with encryption
+# acquire key and plaintext
+# process key into part for polybius and one-time pad
+# use polybius square to get key for columnar transposition
+# encrypt plaintext with columnar transposition, no padding (result is cipher1)
+# use polybius square to find numerical representation for each letter in cipher1
+# convert each of these numbers from decimal to 6-bit binary
+# convert one-time-pad value from decimal to 6-bit binary
+# use one-time pad using previous values
+# convert resulting cipher from 6-bit binary to decimal
+# return the decimal number to the user as the completed ciphertext
+
     else:
         #Decrypt
         ciphertext = input("Enter the ciphertext: ")
