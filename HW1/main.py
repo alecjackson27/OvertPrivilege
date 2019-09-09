@@ -2,6 +2,18 @@
 
 # prompt for user input
 # user may want to encrypt or decrypt a message
+cryption = input("Do you want to encrypt or decrypt?(E/d): ")
+while cryption not in { 'E', 'e', 'D', 'd', 'Q', 'q' }:
+    cryption = input("Invalid input. Type 'E' if you wish to encrypt and 'D' if you wish to decrypt. Type 'Q' to quit: ")
+
+if cryption not in { 'Q', 'q' }:
+    key = input("Enter the key: ")
+    if cryption in { 'E', 'e' }:
+        #Ecrypt
+        plaintext = input("Enter the plaintext: ")
+    else:
+        #Decrypt
+        ciphertext = input("Enter the ciphertext: ")
 
 # steps to deal with encryption
 # acquire key and plaintext
