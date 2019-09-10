@@ -18,6 +18,13 @@ keyToValuePolySquare.update({'30':'P', '31':'X', '32':'J', '33':'4', '34':'V', '
 keyToValuePolySquare.update({'40':'D', '41':'1', '42':'8', '43':'G', '44':'C', '45':'6'})
 keyToValuePolySquare.update({'50':'9', '51':'I', '52':'S', '53':'5', '54':'T', '55':'L'})
 
+valueToKeyPolySquare = {'E':'00', '2':'01', 'R':'02', 'F':'03', 'Z':'04', 'M':'05'}
+valueToKeyPolySquare.update({'Y':'10', 'H':'11', '3':'12', 'O':'13', 'B':'14', '7':'15'})
+valueToKeyPolySquare.update({'O':'20', 'Q':'21', 'A':'22', 'N':'23', 'U':'24', 'K':'25'})
+valueToKeyPolySquare.update({'P':'30', 'X':'31', 'J':'32', '4':'33', 'V':'34', 'W':'35'})
+valueToKeyPolySquare.update({'D':'40', '1':'41', '8':'42', 'G':'43', 'C':'44', '6':'45'})
+valueToKeyPolySquare.update({'9':'50', 'I':'51', 'S':'52', '5':'53', 'T':'54', 'L':'55'})
+
 def cipherToValPoly(cipher):
     # take two digits at a time, use as key in dict, add result to result string, return when cipher is used up
     start_i = 0
@@ -29,6 +36,13 @@ def cipherToValPoly(cipher):
         start_i += 2
         end_i += 2
     return retVal
+
+def cipher1ToNumPoly(cipher1):
+    cipher2 = ""
+    for i in range(0, len(cipher1)-1):
+        cipher2 += valueToKeyPolySquare.get(cipher1[i])
+    return cipher2
+
 
 # convert from 6-bit binary to decimal
 # convert from decimal to 6-bit binary
