@@ -41,72 +41,32 @@ def cipherToValPoly(cipher):
 
 #turn the key retrieved from cipherToValPoly into a cipher that can be encrypted.
 def columnKeyToCipher(key,plainText):
-    
-    keyLetters = []
-    emptyLists = []
-    #dictionaries can't have the same key but there may be letters that are the same in the code...
+    tempKey = key
+
+    orderArray = []
+
+    while len(tempKey) > 0:
+        temp = min(tempKey)
+        j = 0
+        for j in range(len(key)):
+            if key[j] == temp:
+                orderArray.append(j);
+        tempKey = tempKey.replace(temp, '')
+
+    cipherList = []
     for i in range(len(key)):
-        keyLetters[i] = key[i] #I think this adds all the letters in Key to the list...
-        emptyLists[i] = []
-
-    scramble = {} #empty dict for initialization?
-
-    for i in range(len(key)):#fill the dictionary with letters from whatever word is made using parallel lists method
-        if keyLetters[i] in scramble: #letter already exists in dict
-            keyletters[i] = keyletters[i] + i
-            #then concatonate a number to the letter so it is a unique key but still has the right letter
-            scramble[keyLetters[i]] = emptyLists[i]
-        else
-            scramble[keyLetters[i]] = emptyLists[i]
-
-    #divide up the plaintext letters into columns
-    #cycle = 0
-    keyWord = ''
-    for i in range(len(plainText)): #does it start at 0 in python?
-        #if (i % len(key)) = 0: 
-            #cycle++
-        keyWord = keyletters[i % len(key)]
-        scramble.get(keyWord).append(plaintext[i]) #I think this adds to the list value in the dictionary
-
-    #sort the dictionary so that it is easier to concatonate the lists of strings
-    sortedKeys = sorted(scramble,key=str.lower)
-
-
-    cipher = ''
-
-    #NOT SURE HOW TO CHECK IF THERE ARE 3+ of the same letter....
-    for i in range(len(scramble)):
-        #means it is the same letter and we need to combine those string lists differently
-        if len(sortedKeys[i+1]) > 1: #I want to access the first letter of the string in the list in the next index
-            cipher += horizontalCombo(scramble,sortedKeys,countLetterFreq(sortedKeys,i),i)#the list the dict and number scramble.get(sortedKeys[i]),scramble.get(sortedKeys[i+1]
-        else
-            cipher += concatonateList(scramble,sortedKeys,i)
-
-    return cipher
+        cipherList.append([])
     
-def countLetterFreq(list,index):
-    count = 1 #starting with the letter that is original
-    for index in range(len(list)):
-        if len(list[index+1]) > 1:
-            count ++
-        else
-            return count
-
-#if only one of that letter in the key then concatonate its list into a string 
-def concatonateList(dict,keylist,index):
-    combo = ''
-    letterScramble = dict.get(keyList[index]) #the desired list in our dictionary
-    for i in range(len(letterScramble)):
-        combo += letterScramble[i]
-    return combo
-
-#if multiple of the same letter then concatonate it differently
-def horizontalCombo(dict,keyList,count,index):
-    combo = ''
-    for i in range(len(dict.get(keyList[index])))
-        for j in count: #I think this is correct but might need to check the count
-            combo += dict.get(keyList[index+j])
-    return combo
+    plainText = plainText.replace(' ', '')
+    plainText = plainText.upper()
+    for i in range(len(plainText)):
+        cipherList[orderArray[i%len(key)]].append(plainText[i])
+    
+    cipher1 = ''
+    for i in range(len(cipherList)):
+        for j in range(len(cipherList[i])):
+            cipher1 += cipherList[i][j]
+    return cipher1
 
 def cipher1ToNumPoly(cipher1):
     cipher2 = ""
