@@ -68,19 +68,6 @@ def columnKeyToCipher(key,plainText):
             cipher1 += cipherList[i][j]
     return cipher1
 
-def cipher1ToCipher2(cipher1, padKey):
-    cipher2 = ""
-    padKey = decimalToBinary(int(padKey))
-
-    for i in range(0, len(cipher1)):
-        temp = valueToKeyPolySquare.get(cipher1[i])
-        temp2 = decimalToBinary(int(temp))
-        temp3 = ""
-        for j in range(len(temp2)):
-            temp3 += str(int(padKey[j]) ^ int(temp2[j]))
-        cipher2 += str(binaryToDecimal(temp3))
-    return cipher2
-
 
 # convert from 6-bit binary to decimal
 # convert from decimal to 6-bit binary
@@ -98,3 +85,16 @@ def binaryToDecimal(binary):
         binary = binary // 10
         i += 1
     return decimal
+
+def cipher1ToCipher2(cipher1, padKey):
+    cipher2 = ""
+    padKey = decimalToBinary(int(padKey))
+
+    for i in range(0, len(cipher1)):
+        temp = valueToKeyPolySquare.get(cipher1[i])
+        temp2 = decimalToBinary(int(temp))
+        temp3 = ""
+        for j in range(len(temp2)):
+            temp3 += str(int(padKey[j]) ^ int(temp2[j]))
+        cipher2 += str(binaryToDecimal(temp3))
+    return cipher2
