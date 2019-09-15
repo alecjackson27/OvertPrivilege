@@ -68,10 +68,17 @@ def columnKeyToCipher(key,plainText):
             cipher1 += cipherList[i][j]
     return cipher1
 
-def cipher1ToNumPoly(cipher1):
+def cipher1ToCipher2(cipher1, padKey):
     cipher2 = ""
-    for i in range(0, len(cipher1)-1):
-        cipher2 += valueToKeyPolySquare.get(cipher1[i])
+    padKey = decimalToBinary(int(padKey))
+
+    for i in range(0, len(cipher1)):
+        temp = valueToKeyPolySquare.get(cipher1[i])
+        temp2 = decimalToBinary(int(temp))
+        temp3 = ""
+        for j in range(len(temp2)):
+            temp3 += str(int(padKey[j]) ^ int(temp2[j]))
+        cipher2 += str(binaryToDecimal(temp3))
     return cipher2
 
 
