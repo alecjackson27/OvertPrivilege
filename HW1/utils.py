@@ -132,23 +132,28 @@ def cipher1ToPlainText(key, cipher1):
     return plain_text
 """
 
+#take a cipher text and reposition it back to its original message
 def untransposeTextByColumn(key, cipher):
     col = len(key)
 
-    letters_per_char = len(cipher) // len(key)
-    leftovers = len(cipher) % len(key)
+    #find out how many letters from the cipher will be with each column from the key (they are each different because there is no padding))
+    letters_per_char = len(cipher) // len(key) #each column will have at least <letters_per_char> letters
+    leftovers = len(cipher) % len(key) #the first <leftovers> columns will have 1 extra letter
 
     key_list = list(key)
 
+    #join the number of letters each column will have with the associated letters from the key
     numbers_list = []
     for i in range(col):
         numbers_list.append(letters_per_char)
     for i in range(leftovers):
         numbers_list[i] += 1;
 
+    #sort the columns back to alphabetical order to determine the block sizes from the cipher (again, different because there is no padding)
     key_numbers = list(zip(key_list,numbers_list))
     key_numbers.sort(key = lambda x: x[0])
 
+    #remove the correct amount of letters from the cipher and arrange them into the correct amounts per column
     start_i = 0
     end_i = 0
     cipher_divide = []
@@ -157,9 +162,11 @@ def untransposeTextByColumn(key, cipher):
         cipher_divide.append(cipher[start_i:end_i])
         start_i += int(i[1])
        
+    #take the new columns of letters from the cipher and put them in their associated columns with the key
     key_ordered = sorted(key)
     arranged_cipher = list(zip(key_ordered,cipher_divide))
 
+    #put the columns back in the order to put the key letters back in place with the associated columns moving as well
     ordered_arranged_cipher = []
     for i in key:
         for j in arranged_cipher:
@@ -168,6 +175,7 @@ def untransposeTextByColumn(key, cipher):
                 arranged_cipher.remove(j)
                 break
 
+    #take the letters from each column and put them back in the original message
     message = ''
     for i in range(letters_per_char+1):
         for j in ordered_arranged_cipher:
