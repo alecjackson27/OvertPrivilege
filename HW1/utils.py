@@ -39,12 +39,11 @@ def cipherToValPoly(cipher):
         end_i += 2
     return retVal
 
-#turn the key retrieved from cipherToValPoly into a cipher that can be encrypted.
-def columnKeyToCipher(key,plainText):
-    tempKey = key
-
+# given a key, gives the order array for columnar transposition. Will need to be inverted for encrypting, can be used as is for decrypting
+def inverseOrderArray(key):
     orderArray = []
 
+    tempKey = key
     while len(tempKey) > 0:
         temp = min(tempKey)
         j = 0
@@ -52,6 +51,16 @@ def columnKeyToCipher(key,plainText):
             if key[j] == temp:
                 orderArray.append(j);
         tempKey = tempKey.replace(temp, '')
+    return orderArray
+    
+
+#turn the key retrieved from cipherToValPoly into a cipher that can be encrypted.
+def columnKeyToCipher(key, plainText):
+
+    tempList = inverseOrderArray(key)
+    orderArray = [0] * len(key)
+    for i in range(len(key)):
+        orderArray[tempList[i]] = i
 
     cipherList = []
     for i in range(len(key)):
@@ -87,6 +96,8 @@ def binaryToDecimal(binary):
         i += 1
     return decimal
 
+
+# converts cipher1 to the final cipher
 def cipher1ToCipher2(cipher1, padKey):
     cipher2 = ""
     padKey = decimalToBinary(int(padKey))
@@ -97,5 +108,8 @@ def cipher1ToCipher2(cipher1, padKey):
         temp3 = ""
         for j in range(len(temp2)):
             temp3 += str(int(padKey[j]) ^ int(temp2[j]))
-        cipher2 += str(binaryToDecimal(temp3))
+        temp3 = str(binaryToDecimal(temp3))
+        if len(temp3) < 2:
+            temp3 = '0' + temp3
+        cipher2 += temp3
     return cipher2
