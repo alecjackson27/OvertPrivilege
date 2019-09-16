@@ -1,3 +1,5 @@
+import math
+
 # Functions necessary
 # process key into polybius part and one-time pad
 def getPolyKey(key):
@@ -39,9 +41,9 @@ def cipherToValPoly(cipher):
         end_i += 2
     return retVal
 
-# given a key, gives the order array for columnar transposition. Will need to be inverted for encrypting, can be used as is for decrypting
+# given a key, gives the order array for columnar transposition. Will be used for encrypting and decrypting
 def inverseOrderArray(key):
-    orderArray = []
+    tempList = []
 
     tempKey = key
     while len(tempKey) > 0:
@@ -49,18 +51,17 @@ def inverseOrderArray(key):
         j = 0
         for j in range(len(key)):
             if key[j] == temp:
-                orderArray.append(j);
+                tempList.append(j);
         tempKey = tempKey.replace(temp, '')
+    orderArray = [0] * len(key)
+    for i in range(len(key)):
+        orderArray[tempList[i]] = i
     return orderArray
     
 
 #turn the key retrieved from cipherToValPoly into a cipher that can be encrypted.
 def columnKeyToCipher(key, plainText):
-
-    tempList = inverseOrderArray(key)
-    orderArray = [0] * len(key)
-    for i in range(len(key)):
-        orderArray[tempList[i]] = i
+    orderArray = inverseOrderArray(key)
 
     cipherList = []
     for i in range(len(key)):
@@ -77,7 +78,104 @@ def columnKeyToCipher(key, plainText):
             cipher1 += cipherList[i][j]
     return cipher1
 
+"""
+def cipher1ToPlainText(key, cipher1):
+    orderArray = inverseOrderArray(key)
+    print(cipher1)
+    print(key)
+    
+    cipherList = []
+    for i in range(len(key)):
+        cipherList.append([])
+    
+    cipher1 = cipher1.replace(' ', '')
+    cipher1 = cipher1.upper()
 
+
+    plain_text = ''
+    if len(cipher1) % len(key) == 0:
+        for i in range(len(key)):
+            for j in range(len(cipher1) // len(key)):
+                cipherList[i].append(cipher1[i*len(cipher1)//len(key)+j])
+        for i in range(len(cipher1)//len(key)):
+            for j in range(len(key)):
+                plain_text += cipherList[j][i]
+    else:
+        count = 0;
+        for i in range(len(key)):
+            if i < len(cipher1) % len(key):
+                for j in range(len(cipher1) // len(key) + 1):
+                    print("j: ", j)
+                    #print("shorter: ", cipher1[count])
+                    cipherList[i].append(cipher1[count])
+                    count += 1
+            else:
+    
+                for j in range(len(cipher1) // len(key)):
+                    print("j: ", j)
+                    #print("longer: ", cipher1[count])
+                    cipherList[i].append(cipher1[count])
+                    count += 1
+        for i in range(len(cipherList)):
+            for j in range(len(cipherList[i])):
+                print(cipherList[i][j])
+        row = 0        
+        for i in range(len(cipher1)):
+            if i > 0 and i % len(key) == 0:
+                row += 1
+            #print("row: ", row)
+            #print("column: ", i%len(key))
+            #print(cipherList[i%len(key)][row])
+            plain_text += cipherList[i%len(key)][row]
+       
+    #plain_text = plain_text.replace('$', '')
+    return plain_text
+"""
+
+def untransposeTextByColumn(key, cipher):
+    col = len(key)
+
+    letters_per_char = len(cipher) // len(key)
+    leftovers = len(cipher) % len(key)
+
+    key_list = list(key)
+
+    numbers_list = []
+    for i in range(col):
+        numbers_list.append(letters_per_char)
+    for i in range(leftovers):
+        numbers_list[i] += 1;
+
+    key_numbers = list(zip(key_list,numbers_list))
+    key_numbers.sort(key = lambda x: x[0])
+
+    start_i = 0
+    end_i = 0
+    cipher_divide = []
+    for i in key_numbers:
+        end_i += int(i[1])
+        cipher_divide.append(cipher[start_i:end_i])
+        start_i += int(i[1])
+       
+    key_ordered = sorted(key)
+    arranged_cipher = list(zip(key_ordered,cipher_divide))
+
+    ordered_arranged_cipher = []
+    for i in key:
+        for j in arranged_cipher:
+            if i == j[0]:
+                ordered_arranged_cipher.append(j)
+                arranged_cipher.remove(j)
+                break
+
+    message = ''
+    for i in range(letters_per_char+1):
+        for j in ordered_arranged_cipher:
+            if i < len(j[1]):
+                message += j[1][i]
+
+
+    return message
 # convert from 6-bit binary to decimal
 # convert from decimal to 6-bit binary
 def decimalToBinary(deci):
@@ -104,12 +202,32 @@ def cipher1ToCipher2(cipher1, padKey):
 
     for i in range(0, len(cipher1)):
         temp = valueToKeyPolySquare.get(cipher1[i])
-        temp2 = decimalToBinary(int(temp))
-        temp3 = ""
-        for j in range(len(temp2)):
-            temp3 += str(int(padKey[j]) ^ int(temp2[j]))
-        temp3 = str(binaryToDecimal(temp3))
-        if len(temp3) < 2:
-            temp3 = '0' + temp3
-        cipher2 += temp3
+        temp = decimalToBinary(int(temp))
+        temp2 = ""
+        for j in range(len(temp)):
+            temp2 += str(int(padKey[j]) ^ int(temp[j]))
+        temp2 = str(binaryToDecimal(temp2))
+        if len(temp2) < 2:
+            temp2 = '0' + temp2
+        cipher2 += temp2
     return cipher2
+
+# converts final cipher to cipher1
+def cipher2ToCipher1(cipher2, padKey):
+    cipher1 = ""
+    padKey = decimalToBinary(int(padKey))
+
+    length = len(cipher2)
+    for i in range(length//2):
+        temp = cipher2[:2]
+        temp = decimalToBinary(int(temp))
+        temp2 = ""
+        for j in range(len(temp)):
+            temp2 += str(int(padKey[j]) ^ int(temp[j]))
+        temp2 = str(binaryToDecimal(temp2))
+        if len(temp2) < 2:
+            temp2 = '0' + temp2
+        temp2 = keyToValuePolySquare.get(temp2)
+        cipher1 += temp2
+        cipher2 = cipher2[2:]
+    return cipher1

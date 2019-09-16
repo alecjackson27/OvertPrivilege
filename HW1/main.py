@@ -41,9 +41,14 @@ def decrypt():
     # do a one-time pad with previous values
     # convert 6-bit binary to decimal (should all be 2 digit values)
     # use polybius square on created decimal values, get letters
+    cipher1 = cipher2ToCipher1(cipher_text, pad_key)
+
     # use polybius square to get key for columnar transposition
+    col_key = cipherToValPoly(poly_key)
+
     # reverse columnar transposition using values from previous two steps
     # return plaintext to user
+    print("The plaintext is: ", untransposeTextByColumn(col_key, cipher1))
 
 # prompt for user input
 # user may want to encrypt or decrypt a message
