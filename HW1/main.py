@@ -48,7 +48,7 @@ def decrypt():
 
     # reverse columnar transposition using values from previous two steps
     # return plaintext to user
-    print("The plaintext is: ", decryptMessage(col_key, cipher1))
+    print("The plaintext is: ", untransposeTextByColumn(col_key, cipher1))
 
 # prompt for user input
 # user may want to encrypt or decrypt a message

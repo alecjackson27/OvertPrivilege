@@ -78,7 +78,7 @@ def columnKeyToCipher(key, plainText):
             cipher1 += cipherList[i][j]
     return cipher1
 
-
+"""
 def cipher1ToPlainText(key, cipher1):
     orderArray = inverseOrderArray(key)
     print(cipher1)
@@ -130,63 +130,52 @@ def cipher1ToPlainText(key, cipher1):
        
     #plain_text = plain_text.replace('$', '')
     return plain_text
+"""
 
-def decryptMessage(key, cipher): 
-    msg = "" 
-  
-    # track key indices 
-    k_indx = 0
-  
-    # track msg indices 
-    msg_indx = 0
-    msg_len = float(len(cipher)) 
-    msg_lst = list(cipher) 
-  
-    # calculate column of the matrix 
-    col = len(key) 
-      
-    # calculate maximum row of the matrix 
-    row = int(math.ceil(msg_len / col)) 
-  
-    # convert key into list and sort  
-    # alphabetically so we can access  
-    # each character by its alphabetical position. 
-    key_lst = sorted(list(key)) 
-  
-    # create an empty matrix to  
-    # store deciphered message 
-    dec_cipher = [] 
-    for _ in range(row): 
-        dec_cipher += [[None] * col] 
-  
-    # Arrange the matrix column wise according  
-    # to permutation order by adding into new matrix 
-    for _ in range(col): 
-        curr_idx = key.index(key_lst[k_indx]) 
-  
-        for j in range(row - 1):
-            print(msg_indx)
-            print(len(msg_lst))
-            dec_cipher[j][curr_idx] = msg_lst[msg_indx] 
-            msg_indx += 1
-        k_indx += 1
-  
-    # convert decrypted msg matrix into a string 
-    try: 
-        msg = ''.join(sum(dec_cipher, [])) 
-    except TypeError: 
-        raise TypeError("This program cannot", 
-                        "handle repeating words.") 
-  
-    null_count = msg.count('_') 
-  
-    if null_count > 0: 
-        return msg[: -null_count] 
-  
-    return msg
+def untransposeTextByColumn(key, cipher):
+    col = len(key)
 
-        
+    letters_per_char = len(cipher) // len(key)
+    leftovers = len(cipher) % len(key)
 
+    key_list = list(key)
+
+    numbers_list = []
+    for i in range(col):
+        numbers_list.append(letters_per_char)
+    for i in range(leftovers):
+        numbers_list[i] += 1;
+
+    key_numbers = list(zip(key_list,numbers_list))
+    key_numbers.sort(key = lambda x: x[0])
+
+    start_i = 0
+    end_i = 0
+    cipher_divide = []
+    for i in key_numbers:
+        end_i += int(i[1])
+        cipher_divide.append(cipher[start_i:end_i])
+        start_i += int(i[1])
+       
+    key_ordered = sorted(key)
+    arranged_cipher = list(zip(key_ordered,cipher_divide))
+
+    ordered_arranged_cipher = []
+    for i in key:
+        for j in arranged_cipher:
+            if i == j[0]:
+                ordered_arranged_cipher.append(j)
+                arranged_cipher.remove(j)
+                break
+
+    message = ''
+    for i in range(letters_per_char+1):
+        for j in ordered_arranged_cipher:
+            if i < len(j[1]):
+                message += j[1][i]
+
+
+    return message
 # convert from 6-bit binary to decimal
 # convert from decimal to 6-bit binary
 def decimalToBinary(deci):
