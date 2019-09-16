@@ -39,12 +39,11 @@ def cipherToValPoly(cipher):
         end_i += 2
     return retVal
 
-#turn the key retrieved from cipherToValPoly into a cipher that can be encrypted.
-def columnKeyToCipher(key,plainText):
-    tempKey = key
-
+# given a key, gives the order array for columnar transposition. Will need to be inverted for encrypting, can be used as is for decrypting
+def inverseOrderArray(key):
     orderArray = []
 
+    tempKey = key
     while len(tempKey) > 0:
         temp = min(tempKey)
         j = 0
@@ -52,6 +51,16 @@ def columnKeyToCipher(key,plainText):
             if key[j] == temp:
                 orderArray.append(j);
         tempKey = tempKey.replace(temp, '')
+    return orderArray
+    
+
+#turn the key retrieved from cipherToValPoly into a cipher that can be encrypted.
+def columnKeyToCipher(key, plainText):
+
+    tempList = inverseOrderArray(key)
+    orderArray = [0] * len(key)
+    for i in range(len(key)):
+        orderArray[tempList[i]] = i
 
     cipherList = []
     for i in range(len(key)):
@@ -68,12 +77,6 @@ def columnKeyToCipher(key,plainText):
             cipher1 += cipherList[i][j]
     return cipher1
 
-def cipher1ToNumPoly(cipher1):
-    cipher2 = ""
-    for i in range(0, len(cipher1)-1):
-        cipher2 += valueToKeyPolySquare.get(cipher1[i])
-    return cipher2
-
 
 # convert from 6-bit binary to decimal
 # convert from decimal to 6-bit binary
@@ -85,9 +88,28 @@ def decimalToBinary(deci):
 
 def binaryToDecimal(binary):
     decimal, i = 0, 0
-    while binary != 0:
-        dec = binary % 10
+    binary2 = int(binary)
+    while binary2 != 0:
+        dec = binary2 % 10
         decimal = decimal + (dec * pow(2,i))
-        binary = binary // 10
+        binary2 = binary2 // 10
         i += 1
     return decimal
+
+
+# converts cipher1 to the final cipher
+def cipher1ToCipher2(cipher1, padKey):
+    cipher2 = ""
+    padKey = decimalToBinary(int(padKey))
+
+    for i in range(0, len(cipher1)):
+        temp = valueToKeyPolySquare.get(cipher1[i])
+        temp2 = decimalToBinary(int(temp))
+        temp3 = ""
+        for j in range(len(temp2)):
+            temp3 += str(int(padKey[j]) ^ int(temp2[j]))
+        temp3 = str(binaryToDecimal(temp3))
+        if len(temp3) < 2:
+            temp3 = '0' + temp3
+        cipher2 += temp3
+    return cipher2

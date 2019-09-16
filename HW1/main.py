@@ -16,6 +16,7 @@ def encrypt():
     col_key = cipherToValPoly(poly_key)
 
     # encrypt plaintext with columnar transposition, no padding (result is cipher1)
+    cipher1 = columnKeyToCipher(col_key, plain_text)
     
     
     # use polybius square to find numerical representation for each letter in cipher1
@@ -24,6 +25,7 @@ def encrypt():
     # use one-time pad using previous values
     # convert resulting cipher from 6-bit binary to decimal
     # return the decimal number to the user as the completed ciphertext
+    print("The ciphertext is: ", cipher1ToCipher2(cipher1, pad_key))
 
 def decrypt():
     # acquire key and ciphertext
