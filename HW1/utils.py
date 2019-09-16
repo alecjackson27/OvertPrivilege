@@ -1,3 +1,5 @@
+import math
+
 # Functions necessary
 # process key into polybius part and one-time pad
 def getPolyKey(key):
@@ -39,9 +41,9 @@ def cipherToValPoly(cipher):
         end_i += 2
     return retVal
 
-# given a key, gives the order array for columnar transposition. Will need to be inverted for encrypting, can be used as is for decrypting
+# given a key, gives the order array for columnar transposition. Will be used for encrypting and decrypting
 def inverseOrderArray(key):
-    orderArray = []
+    tempList = []
 
     tempKey = key
     while len(tempKey) > 0:
@@ -49,18 +51,17 @@ def inverseOrderArray(key):
         j = 0
         for j in range(len(key)):
             if key[j] == temp:
-                orderArray.append(j);
+                tempList.append(j);
         tempKey = tempKey.replace(temp, '')
+    orderArray = [0] * len(key)
+    for i in range(len(key)):
+        orderArray[tempList[i]] = i
     return orderArray
     
 
 #turn the key retrieved from cipherToValPoly into a cipher that can be encrypted.
 def columnKeyToCipher(key, plainText):
-
-    tempList = inverseOrderArray(key)
-    orderArray = [0] * len(key)
-    for i in range(len(key)):
-        orderArray[tempList[i]] = i
+    orderArray = inverseOrderArray(key)
 
     cipherList = []
     for i in range(len(key)):
@@ -77,6 +78,114 @@ def columnKeyToCipher(key, plainText):
             cipher1 += cipherList[i][j]
     return cipher1
 
+
+def cipher1ToPlainText(key, cipher1):
+    orderArray = inverseOrderArray(key)
+    print(cipher1)
+    print(key)
+    
+    cipherList = []
+    for i in range(len(key)):
+        cipherList.append([])
+    
+    cipher1 = cipher1.replace(' ', '')
+    cipher1 = cipher1.upper()
+
+
+    plain_text = ''
+    if len(cipher1) % len(key) == 0:
+        for i in range(len(key)):
+            for j in range(len(cipher1) // len(key)):
+                cipherList[i].append(cipher1[i*len(cipher1)//len(key)+j])
+        for i in range(len(cipher1)//len(key)):
+            for j in range(len(key)):
+                plain_text += cipherList[j][i]
+    else:
+        count = 0;
+        for i in range(len(key)):
+            if i < len(cipher1) % len(key):
+                for j in range(len(cipher1) // len(key) + 1):
+                    print("j: ", j)
+                    #print("shorter: ", cipher1[count])
+                    cipherList[i].append(cipher1[count])
+                    count += 1
+            else:
+    
+                for j in range(len(cipher1) // len(key)):
+                    print("j: ", j)
+                    #print("longer: ", cipher1[count])
+                    cipherList[i].append(cipher1[count])
+                    count += 1
+        for i in range(len(cipherList)):
+            for j in range(len(cipherList[i])):
+                print(cipherList[i][j])
+        row = 0        
+        for i in range(len(cipher1)):
+            if i > 0 and i % len(key) == 0:
+                row += 1
+            #print("row: ", row)
+            #print("column: ", i%len(key))
+            #print(cipherList[i%len(key)][row])
+            plain_text += cipherList[i%len(key)][row]
+       
+    #plain_text = plain_text.replace('$', '')
+    return plain_text
+
+def decryptMessage(key, cipher): 
+    msg = "" 
+  
+    # track key indices 
+    k_indx = 0
+  
+    # track msg indices 
+    msg_indx = 0
+    msg_len = float(len(cipher)) 
+    msg_lst = list(cipher) 
+  
+    # calculate column of the matrix 
+    col = len(key) 
+      
+    # calculate maximum row of the matrix 
+    row = int(math.ceil(msg_len / col)) 
+  
+    # convert key into list and sort  
+    # alphabetically so we can access  
+    # each character by its alphabetical position. 
+    key_lst = sorted(list(key)) 
+  
+    # create an empty matrix to  
+    # store deciphered message 
+    dec_cipher = [] 
+    for _ in range(row): 
+        dec_cipher += [[None] * col] 
+  
+    # Arrange the matrix column wise according  
+    # to permutation order by adding into new matrix 
+    for _ in range(col): 
+        curr_idx = key.index(key_lst[k_indx]) 
+  
+        for j in range(row - 1):
+            print(msg_indx)
+            print(len(msg_lst))
+            dec_cipher[j][curr_idx] = msg_lst[msg_indx] 
+            msg_indx += 1
+        k_indx += 1
+  
+    # convert decrypted msg matrix into a string 
+    try: 
+        msg = ''.join(sum(dec_cipher, [])) 
+    except TypeError: 
+        raise TypeError("This program cannot", 
+                        "handle repeating words.") 
+  
+    null_count = msg.count('_') 
+  
+    if null_count > 0: 
+        return msg[: -null_count] 
+  
+    return msg
+
+        
 
 # convert from 6-bit binary to decimal
 # convert from decimal to 6-bit binary
@@ -104,12 +213,32 @@ def cipher1ToCipher2(cipher1, padKey):
 
     for i in range(0, len(cipher1)):
         temp = valueToKeyPolySquare.get(cipher1[i])
-        temp2 = decimalToBinary(int(temp))
-        temp3 = ""
-        for j in range(len(temp2)):
-            temp3 += str(int(padKey[j]) ^ int(temp2[j]))
-        temp3 = str(binaryToDecimal(temp3))
-        if len(temp3) < 2:
-            temp3 = '0' + temp3
-        cipher2 += temp3
+        temp = decimalToBinary(int(temp))
+        temp2 = ""
+        for j in range(len(temp)):
+            temp2 += str(int(padKey[j]) ^ int(temp[j]))
+        temp2 = str(binaryToDecimal(temp2))
+        if len(temp2) < 2:
+            temp2 = '0' + temp2
+        cipher2 += temp2
     return cipher2
+
+# converts final cipher to cipher1
+def cipher2ToCipher1(cipher2, padKey):
+    cipher1 = ""
+    padKey = decimalToBinary(int(padKey))
+
+    length = len(cipher2)
+    for i in range(length//2):
+        temp = cipher2[:2]
+        temp = decimalToBinary(int(temp))
+        temp2 = ""
+        for j in range(len(temp)):
+            temp2 += str(int(padKey[j]) ^ int(temp[j]))
+        temp2 = str(binaryToDecimal(temp2))
+        if len(temp2) < 2:
+            temp2 = '0' + temp2
+        temp2 = keyToValuePolySquare.get(temp2)
+        cipher1 += temp2
+        cipher2 = cipher2[2:]
+    return cipher1
