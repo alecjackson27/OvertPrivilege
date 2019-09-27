@@ -9,6 +9,9 @@ from PyQt5.QtCore import QSize
 from PyQt5.QtCore import pyqtSlot
 
 class KeyGenWindow(QMainWindow):
+
+    # The function to select the desired directory. Will be called when the user
+    # clicks the 'Browse' button
     @pyqtSlot()
     def on_click(self):
         self.textbox.setText(str(QFileDialog.getExistingDirectory(self, "Select Directory")))
@@ -21,6 +24,7 @@ class KeyGenWindow(QMainWindow):
         # Call function to generate key. For now, just prints "Store" to console
         print("Store")
 
+    # The help message box function
     def helpMethod(self):
         QMessageBox.about(
             self,
@@ -40,45 +44,56 @@ class KeyGenWindow(QMainWindow):
         centralWidget = QWidget(self)
         self.setCentralWidget(centralWidget)
 
+        # The text box for the user's desired directory
         self.textbox = QLineEdit(self)
         self.textbox.move(100, 20)
         self.textbox.resize(self.width() - 375, 30)
         self.textbox.setText(os.getcwd())
 
+        # The label for the text box
         self.textLabel = QLabel(self)
         self.textLabel.setText('Directory:')
         self.textLabel.move(20, 20)
 
-        self.publicLabel = QLabel(self)
-        self.publicLabel.setText('Public Key: ')
-        self.publicLabel.move(self.width() / 3, self.height() / 2 - 40)
-
-        self.privateLabel = QLabel(self)
-        self.privateLabel.setText('Private Key: ')
-        self.privateLabel.move(self.width() / 3, self.height() / 2 - 10)
-
+        # The browse directory button
         self.button = QPushButton('Browse', self)
         #self.button.setToolTip('This is an example button')
         self.button.move(self.width() - 110, 20)
         self.button.clicked.connect(self.on_click)
 
+        # The label for the public key
+        self.publicLabel = QLabel(self)
+        self.publicLabel.setText('Public Key: ')
+        self.publicLabel.move(self.width() / 3, self.height() / 2 - 40)
+
+        # The label for the private key
+        self.privateLabel = QLabel(self)
+        self.privateLabel.setText('Private Key: ')
+        self.privateLabel.move(self.width() / 3, self.height() / 2 - 10)
+
+        # The button to generate the keys
         self.generateButton = QPushButton('Generate', self)
         self.generateButton.move(self.width() / 3 - 50, self.height() - 100)
         self.generateButton.clicked.connect(self.generateClick)
 
+        # The button to store the keys
         self.storeButton = QPushButton('Store', self)
         self.storeButton.move(2 * self.width() / 3 - 50, self.height() - 100)
         self.storeButton.clicked.connect(self.storeClick)
 
+        # The help option on the toolbar
         helpAct = QAction(QIcon('help.png'), '&Help', self)
         helpAct.triggered.connect(self.helpMethod)
 
+        # The toolbar
         menubar = self.menuBar()
         fileMenu = menubar.addMenu('&Help')
         fileMenu.addAction(helpAct)
 
         self.show()
     
+    # Overwriting the resizeEvent() function so that the proportions of the GUI
+    # remain intact
     def resizeEvent(self, event):
         self.button.move(self.width() - 110, 20)
         self.textbox.resize(self.width() - 215, 30)
