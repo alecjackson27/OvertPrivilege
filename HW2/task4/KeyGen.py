@@ -11,7 +11,7 @@ from PyQt5.QtCore import pyqtSlot
 class KeyGenWindow(QMainWindow):
     @pyqtSlot()
     def on_click(self):
-        print('PyQt5 button click')
+        self.textbox.setText(str(QFileDialog.getExistingDirectory(self, "Select Directory")))
 
     def helpMethod(self):
         QMessageBox.about(
@@ -32,20 +32,6 @@ class KeyGenWindow(QMainWindow):
         centralWidget = QWidget(self)
         self.setCentralWidget(centralWidget)
 
-        self.button = QPushButton('Browse', self)
-        #self.button.setToolTip('This is an example button')
-        self.button.move(self.width() - 110, 20)
-        self.button.clicked.connect(self.on_click)
-
-        helpAct = QAction(QIcon('help.png'), '&Help', self)
-        helpAct.triggered.connect(self.helpMethod)
-
-        #file = str(QFileDialog.getExistingDirectory(self, "Select Directory"))
-
-        menubar = self.menuBar()
-        fileMenu = menubar.addMenu('&Help')
-        fileMenu.addAction(helpAct)
-
         self.textbox = QLineEdit(self)
         self.textbox.move(100, 20)
         self.textbox.resize(self.width() - 375, 30)
@@ -54,6 +40,18 @@ class KeyGenWindow(QMainWindow):
         self.textLabel = QLabel(self)
         self.textLabel.setText('Directory:')
         self.textLabel.move(20, 20)
+
+        self.button = QPushButton('Browse', self)
+        #self.button.setToolTip('This is an example button')
+        self.button.move(self.width() - 110, 20)
+        self.button.clicked.connect(self.on_click)
+
+        helpAct = QAction(QIcon('help.png'), '&Help', self)
+        helpAct.triggered.connect(self.helpMethod)
+
+        menubar = self.menuBar()
+        fileMenu = menubar.addMenu('&Help')
+        fileMenu.addAction(helpAct)
 
         
         #self.setGeometry(300, 300, 300, 200)
