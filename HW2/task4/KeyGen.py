@@ -34,7 +34,7 @@ class KeyGenWindow(QMainWindow):
     def __init__(self):
         QMainWindow.__init__(self)
 
-        self.setMinimumSize(QSize(480, 320))
+        self.setMinimumSize(QSize(400, 240))
         self.setWindowTitle("Public/Private Key Generator")
 
         centralWidget = QWidget(self)
