@@ -13,6 +13,14 @@ class KeyGenWindow(QMainWindow):
     def on_click(self):
         self.textbox.setText(str(QFileDialog.getExistingDirectory(self, "Select Directory")))
 
+    def generateClick(self):
+        # Call function to generate key. For now, just prints "Generate" to console
+        print('Generate')
+
+    def storeClick(self):
+        # Call function to generate key. For now, just prints "Store" to console
+        print("Store")
+
     def helpMethod(self):
         QMessageBox.about(
             self,
@@ -41,10 +49,26 @@ class KeyGenWindow(QMainWindow):
         self.textLabel.setText('Directory:')
         self.textLabel.move(20, 20)
 
+        self.publicLabel = QLabel(self)
+        self.publicLabel.setText('Public Key: ')
+        self.publicLabel.move(self.width() / 3, self.height() / 2 - 40)
+
+        self.privateLabel = QLabel(self)
+        self.privateLabel.setText('Private Key: ')
+        self.privateLabel.move(self.width() / 3, self.height() / 2 - 10)
+
         self.button = QPushButton('Browse', self)
         #self.button.setToolTip('This is an example button')
         self.button.move(self.width() - 110, 20)
         self.button.clicked.connect(self.on_click)
+
+        self.generateButton = QPushButton('Generate', self)
+        self.generateButton.move(self.width() / 3 - 50, self.height() - 100)
+        self.generateButton.clicked.connect(self.generateClick)
+
+        self.storeButton = QPushButton('Store', self)
+        self.storeButton.move(2 * self.width() / 3 - 50, self.height() - 100)
+        self.storeButton.clicked.connect(self.storeClick)
 
         helpAct = QAction(QIcon('help.png'), '&Help', self)
         helpAct.triggered.connect(self.helpMethod)
@@ -53,16 +77,15 @@ class KeyGenWindow(QMainWindow):
         fileMenu = menubar.addMenu('&Help')
         fileMenu.addAction(helpAct)
 
-        
-        #self.setGeometry(300, 300, 300, 200)
         self.show()
-        
-        #self.setGeometry(300, 300, 250, 150)   
-        # self.show()
     
     def resizeEvent(self, event):
         self.button.move(self.width() - 110, 20)
         self.textbox.resize(self.width() - 215, 30)
+        self.generateButton.move(self.width() / 3 - 50, self.height() - 75)
+        self.storeButton.move(2 * self.width() / 3 - 50, self.height() - 75)
+        self.publicLabel.move(self.width() / 3, self.height() / 2 - 40)
+        self.privateLabel.move(self.width() / 3, self.height() / 2 - 10)
         QMainWindow.resizeEvent(self, event)
 
 
