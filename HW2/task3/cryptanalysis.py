@@ -20,6 +20,8 @@ arrays = makeArrays(lengths[0], plaintext)
 
 print(arrays)
 
-# check if any of the arrays match the first letters of the cipher
-indexOfFirstGroup = findMatch(arrays, ciphertext)
+if correctLength(arrays, ciphertext, lengths[0]):
+    # chop up the cipher text, matching each chunk to an array
+    key = keyFromArrays(arrays, ciphertext)
+    print(key)
 
