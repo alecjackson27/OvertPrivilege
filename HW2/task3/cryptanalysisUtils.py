@@ -22,10 +22,15 @@ def makeArrays(length, plain):
             index = 1
     return arrays
 
-# checks if the array at length matches the first letters of the cipher text
-def correctLength(arrays, cipher, length):
-    for i in range(len(arrays[length])):
-        if arrays[length][i] != cipher[i]:
+# does one of the given arrays match the first letters of the cipher?
+def correctLength(arrays, cipher):
+    for i in range(len(arrays)):
+        if checkArray(arrays[i], cipher):
+            return True
+
+def checkArray(array, cipher):
+    for i in range(len(array)):
+        if array[i] != cipher[i]:
             return False
     return True
 
@@ -36,11 +41,9 @@ def keyFromArrays(arrays, cipher):
         key.append(0)
     for i in range(len(arrays)):
         match = findMatch(cipher, arrays)
-        print("match: ", match)
         cipher = eliminateMatch(cipher, arrays[match])
-        print("new cipher: ", cipher)
         key[match] = i+1
-    return key
+    return arrayToString(key)
     
 # returns an index of the next matching column
 def findMatch(cipher, arrays):
@@ -58,3 +61,9 @@ def findMatch(cipher, arrays):
 # returns the cipher with the match removed from the front
 def eliminateMatch(cipher, match):
     return cipher[len(match):]
+
+def arrayToString(array):
+    val = ''
+    for el in array:
+        val += str(el)
+    return val
