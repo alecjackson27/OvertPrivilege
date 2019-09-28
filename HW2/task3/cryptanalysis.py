@@ -2,24 +2,21 @@
 from cryptanalysisUtils import *
 
 # take user input
-plaintext = "you need to find the key" #input("Please enter the plain text: ")
-ciphertext = "ntneudihyyeodkoefte" #input("Please enter the cipher text: ")
+plaintext = input("Please enter the plain text: ")
+ciphertext = input("Please enter the cipher text: ")
 
 # strip spaces from the plaintext
 plaintext = plaintext.replace(" ", "")
 
-# determine the possible lengths of the key
-lengths = determineLength(plaintext, ciphertext)
-print("lengths: ", lengths)
+# go through all possible lengths of keys
+for length in range(1, 8):
+    # make a set of arrays for the potential length
+    arrays = makeArrays(length, plaintext)
 
-# following steps will need to be repeated for all possible key lengths
-# but for now I'm going to pretend it only turned up one
-
-# make a set of arrays for the lengths
-arrays = makeArrays(lengths[0], plaintext)
-
-print(arrays)
-
-# check if any of the arrays match the first letters of the cipher
-indexOfFirstGroup = findMatch(arrays, ciphertext)
+    # see if this is a correct length
+    if correctLength(arrays, ciphertext):
+        # chop up the cipher text, matching each chunk to an array
+        key = keyFromArrays(arrays, ciphertext)
+        print("the key is ", key)
+        break
 
