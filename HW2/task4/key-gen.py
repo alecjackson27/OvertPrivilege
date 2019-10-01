@@ -47,7 +47,7 @@ class KeyGenWindow(QMainWindow):
         # The text box for the user's desired directory
         self.textbox = QLineEdit(self)
         self.textbox.move(100, 20)
-        self.textbox.resize(self.width() - 375, 30)
+        self.textbox.resize(185, 30)
         self.textbox.setText(os.getcwd())
 
         # The label for the text box
@@ -58,27 +58,27 @@ class KeyGenWindow(QMainWindow):
         # The browse directory button
         self.button = QPushButton('Browse', self)
         #self.button.setToolTip('This is an example button')
-        self.button.move(self.width() - 110, 20)
+        self.button.move(290, 20)
         self.button.clicked.connect(self.on_click)
 
         # The label for the public key
         self.publicLabel = QLabel(self)
         self.publicLabel.setText('Public Key: ')
-        self.publicLabel.move(self.width() / 3, self.height() / 2 - 40)
+        self.publicLabel.move(400 / 3, 80)
 
         # The label for the private key
         self.privateLabel = QLabel(self)
         self.privateLabel.setText('Private Key: ')
-        self.privateLabel.move(self.width() / 3, self.height() / 2 - 10)
+        self.privateLabel.move(400 / 3, 110)
 
         # The button to generate the keys
         self.generateButton = QPushButton('Generate', self)
-        self.generateButton.move(self.width() / 3 - 50, self.height() - 100)
+        self.generateButton.move(400 / 3 - 50, 165)
         self.generateButton.clicked.connect(self.generateClick)
 
         # The button to store the keys
         self.storeButton = QPushButton('Store', self)
-        self.storeButton.move(2 * self.width() / 3 - 50, self.height() - 100)
+        self.storeButton.move(800 / 3 - 50, 165)
         self.storeButton.clicked.connect(self.storeClick)
 
         # The help option on the toolbar
