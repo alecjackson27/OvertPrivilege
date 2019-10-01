@@ -42,13 +42,13 @@ class DecryptWindow(QMainWindow):
         # The text box for the user's desired file
         self.textbox = QLineEdit(self)
         self.textbox.move(100, 20)
-        self.textbox.resize(self.width() - 375, 30)
+        self.textbox.resize(185, 30)
         self.textbox.setReadOnly(True)
 
         # The browse files button
         self.button = QPushButton('Browse', self)
         #self.button.setToolTip('This is an example button')
-        self.button.move(self.width() - 110, 20)
+        self.button.move(290, 20)
         self.button.clicked.connect(self.on_click)
 
         # The label for the text box
@@ -59,28 +59,28 @@ class DecryptWindow(QMainWindow):
         # The text box for the user's ciphertext
         self.messagebox = QLineEdit(self)
         self.messagebox.move(100, 60)
-        self.messagebox.resize(self.width() - 375, 30)
+        self.messagebox.resize(185, 30)
 
         # The label for the ciphertext box
         self.messageLabel = QLabel(self)
         self.messageLabel.setText('Cipher Text:')
         self.messageLabel.move(20, 60)
 
-        # The encrypt button
-        self.encryptButton = QPushButton('Decrypt', self)
-        self.encryptButton.move(self.width() - 110, 60)
-        self.encryptButton.clicked.connect(self.decryptClick)
+        # The decrypt button
+        self.decryptButton = QPushButton('Decrypt', self)
+        self.decryptButton.move(290, 60)
+        self.decryptButton.clicked.connect(self.decryptClick)
 
         # The text area for the plaintext
-        self.cipherbox = QTextEdit(self)
-        self.cipherbox. move(100, 100)
-        self.cipherbox.resize(self.width() - 275, 100)
-        self.cipherbox.setReadOnly(True)
+        self.plainbox = QTextEdit(self)
+        self.plainbox. move(100, 100)
+        self.plainbox.resize(290, 130)
+        self.plainbox.setReadOnly(True)
 
         # The label for the decrypted plain text box
-        self.encryptLabel = QLabel(self)
-        self.encryptLabel.setText('Plain Text:')
-        self.encryptLabel.move(20, 100)
+        self.decryptLabel = QLabel(self)
+        self.decryptLabel.setText('Plain Text:')
+        self.decryptLabel.move(20, 100)
 
         # The help option on the toolbar
         helpAct = QAction(QIcon('help.png'), '&Help', self)
@@ -97,10 +97,10 @@ class DecryptWindow(QMainWindow):
     # remain intact
     def resizeEvent(self, event):
         self.button.move(self.width() - 110, 20)
-        self.encryptButton.move(self.width() - 110, 60)
+        self.decryptButton.move(self.width() - 110, 60)
         self.messagebox.resize(self.width() - 215, 30)
         self.textbox.resize(self.width() - 215, 30)
-        self.cipherbox.resize(self.width() - 110, self.height() - 110)
+        self.plainbox.resize(self.width() - 110, self.height() - 110)
         QMainWindow.resizeEvent(self, event)
 
 
