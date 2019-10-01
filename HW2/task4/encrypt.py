@@ -10,11 +10,11 @@ from PyQt5.QtCore import pyqtSlot
 
 class EncryptWindow(QMainWindow):
 
-    # The function to select the desired directory. Will be called when the user
+    # The function to select the desired file. Will be called when the user
     # clicks the 'Browse' button
     @pyqtSlot()
     def on_click(self):
-        self.textbox.setText(str(QFileDialog.getExistingDirectory(self, "Select Directory")))
+        self.textbox.setText(QFileDialog.getOpenFileName(self, "Select File", "", "public.key")[0])
 
     def encryptClick(self):
         # Call function to encrypt message. For now, just prints "Encrypt" to console
@@ -39,10 +39,11 @@ class EncryptWindow(QMainWindow):
         centralWidget = QWidget(self)
         self.setCentralWidget(centralWidget)
 
-        # The text box for the user's desired directory
+        # The text box for the user's desired file
         self.textbox = QLineEdit(self)
         self.textbox.move(100, 20)
         self.textbox.resize(self.width() - 375, 30)
+        self.textbox.setReadOnly(True)
 
         # The browse files button
         self.button = QPushButton('Browse', self)
