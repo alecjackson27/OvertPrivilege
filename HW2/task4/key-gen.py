@@ -35,6 +35,25 @@ class KeyGenWindow(QMainWindow):
             directory before storing the keys""".replace("            ", ' ')
             )
 
+    def helpClick(self):
+        QMessageBox.about(
+            self,
+            "Deterministic vs Probabilistic Help",
+            """Checking 'Deterministic' will ensure that the program \
+            generates keys using deterministically generated prime\
+            numbers, rather than the default probabilistically\
+            generated primes. Deterministically generated primes\
+            are guaranteed to be prime, but due to the higher\
+            number of computations required to deterministically\
+            generate primes, the range of primes that can be\
+            generated is significantly smaller, making the keys\
+            less secure. The default probabilistic method will\
+            generate keys using a much larger, 1024-bit number\
+            which is almost certainly prime. The probability that\
+            it isn't prime is less than that of the program failing\
+            due to hardware malfunction.""".replace("            ", ' ')
+            )
+
     def __init__(self):
         QMainWindow.__init__(self)
 
@@ -60,6 +79,13 @@ class KeyGenWindow(QMainWindow):
         #self.button.setToolTip('This is an example button')
         self.button.move(290, 20)
         self.button.clicked.connect(self.on_click)
+
+        self.checkBox = QCheckBox("Deterministic", self)
+        self.checkBox.move(100, 50)
+        self.checkHelpButton = QPushButton("?", self)
+        self.checkHelpButton.move(200, 55)
+        self.checkHelpButton.resize(20, 20)
+        self.checkHelpButton.clicked.connect(self.helpClick)
 
         # The label for the public key
         self.publicLabel = QLabel(self)
