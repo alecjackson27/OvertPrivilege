@@ -5,8 +5,8 @@ from PyQt5.QtWidgets import *#QMainWindow, QLabel, QGridLayout, QWidget, QPushBu
 #    QApplication
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QSize
-
 from PyQt5.QtCore import pyqtSlot
+from RSAutils import encryption
 
 class EncryptWindow(QMainWindow):
 
@@ -17,8 +17,11 @@ class EncryptWindow(QMainWindow):
         self.textbox.setText(QFileDialog.getOpenFileName(self, "Select File", "", "public.key")[0])
 
     def encryptClick(self):
-        # Call function to encrypt message. For now, just prints "Encrypt" to console
-        print('Encrypt')
+        # Call function to encrypt message.
+        if os.path.exists(self.textbox.text()):
+            self.cipherbox.setText(encryption(self.messagebox.text(), self.textbox.text()))
+        else:
+            self.cipherbox.setText("Invalid file path")
 
     # The help message box function
     def helpMethod(self):

@@ -21,13 +21,10 @@ class KeyGenWindow(QMainWindow):
         print('Generate')
         if os.path.exists(self.textbox.text()):
             key_generator(self.textbox.text(), self.checkBox.isChecked())
+            self.publicLabel.setText("Keys generated")
         else:
             # give error message here
-            print("Error")
-
-    def storeClick(self):
-        # Call function to generate key. For now, just prints "Store" to console
-        print("Store")
+            self.publicLabel.setText("Invalid directory")
 
     # The help message box function
     def helpMethod(self):
@@ -92,25 +89,14 @@ class KeyGenWindow(QMainWindow):
         self.checkHelpButton.resize(20, 20)
         self.checkHelpButton.clicked.connect(self.helpClick)
 
-        # The label for the public key
+        # The label which indicates success
         self.publicLabel = QLabel(self)
-        self.publicLabel.setText('Public Key: ')
-        self.publicLabel.move(400 / 3, 80)
-
-        # The label for the private key
-        self.privateLabel = QLabel(self)
-        self.privateLabel.setText('Private Key: ')
-        self.privateLabel.move(400 / 3, 110)
+        self.publicLabel.move(400 / 2, 100)
 
         # The button to generate the keys
         self.generateButton = QPushButton('Generate', self)
-        self.generateButton.move(400 / 3 - 50, 165)
+        self.generateButton.move(150, 165)
         self.generateButton.clicked.connect(self.generateClick)
-
-        # The button to store the keys
-        self.storeButton = QPushButton('Store', self)
-        self.storeButton.move(800 / 3 - 50, 165)
-        self.storeButton.clicked.connect(self.storeClick)
 
         # The help option on the toolbar
         helpAct = QAction(QIcon('help.png'), '&Help', self)
@@ -128,10 +114,8 @@ class KeyGenWindow(QMainWindow):
     def resizeEvent(self, event):
         self.button.move(self.width() - 110, 20)
         self.textbox.resize(self.width() - 215, 30)
-        self.generateButton.move(self.width() / 3 - 50, self.height() - 75)
-        self.storeButton.move(2 * self.width() / 3 - 50, self.height() - 75)
-        self.publicLabel.move(self.width() / 3, self.height() / 2 - 40)
-        self.privateLabel.move(self.width() / 3, self.height() / 2 - 10)
+        self.generateButton.move(self.width() / 2 - 50, self.height() - 75)
+        self.publicLabel.move(self.width() / 2 - 50, self.height() / 2 - 20)
         QMainWindow.resizeEvent(self, event)
 
 

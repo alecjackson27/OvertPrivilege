@@ -5,8 +5,8 @@ from PyQt5.QtWidgets import *#QMainWindow, QLabel, QGridLayout, QWidget, QPushBu
 #    QApplication
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QSize
-
 from PyQt5.QtCore import pyqtSlot
+from RSAutils import decryption
 
 class DecryptWindow(QMainWindow):
 
@@ -17,8 +17,11 @@ class DecryptWindow(QMainWindow):
         self.textbox.setText(QFileDialog.getOpenFileName(self, "Select File", "", "private.key")[0])
 
     def decryptClick(self):
-        # Call function to decrypt. For now, just prints "Decrypt" to console
-        print('Decrypt')
+        # Call function to decrypt.
+        if os.path.exists(self.textbox.text()):
+            self.plainbox.setText(decryption(self.messagebox.text(), self.textbox.text()))
+        else:
+            self.plainbox.setText("Invalid file path")
 
     # The help message box function
     def helpMethod(self):
@@ -53,7 +56,7 @@ class DecryptWindow(QMainWindow):
 
         # The label for the text box
         self.textLabel = QLabel(self)
-        self.textLabel.setText('Public Key:')
+        self.textLabel.setText('Private Key:')
         self.textLabel.move(20, 20)
 
         # The text box for the user's ciphertext

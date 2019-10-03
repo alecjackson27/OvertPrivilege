@@ -1,6 +1,10 @@
 import random
 import os
+import sys
 from decimal import Decimal
+
+#Set recursion limit to 10 ^ 6 since the program works with such large numbers
+sys.setrecursionlimit(1000000)
 
 #
 # Helper function called by generatePrime() to check for primality.uses Miller-Rabin test,
@@ -118,38 +122,47 @@ def gcd(a, b):
         a, b = b, a % b
     return a
 
+# helper function for modinv
+def egcd(a, b):
+    if a == 0:
+        return (b, 0, 1)
+    else:
+        g, y, x = egcd(b % a, a)
+        return (g, x - (b // a) * y, y)
+
 # Returns the modular inverse D using extended euclid's algorithm
-def modularInverse(e, phi):
-    s, old_s = 0, 1
-    r, old_r = phi, e
-    while r > 0:
-        quotient = Decimal(old_r) / Decimal(r)
-        old_r, r = r, old_r - quotient * r
-        old_s, s = s, old_s - quotient * s
-    return int(old_s)
+def modinv(a, m):
+    g, x, y = egcd(a, m)
+    if g != 1:
+        raise Exception('modular inverse does not exist')
+    else:
+        return x % m
 
 # generates both private key and public key
 # returns a tuple (public key, private key)
 def key_gen(p, q):
 	# n is the mod for the RSA algorithm, and is included in both keys
-	n = p * q
+    n = p * q
+    print("P", p)
+    print("Q", q)
 
 	# phi is f(n), and is used to find both P_E (public encryption exponent) and P_D (private decryption exponent)
-	phi = (p-1)*(q-1)
+    phi = (p-1)*(q-1)
+    print("Phi:", phi)
 
 	# find any number e such that e is coprime with phi
-	e = random.randrange(1,phi)
-	g = gcd(e, phi)
-	while g != 1:
-		e = random.randrange(1, phi)
-		g = gcd(e, phi)
+    e = random.randrange(1,phi)
+    g = gcd(e, phi)
+    while g != 1:
+	    e = random.randrange(1, phi)
+	    g = gcd(e, phi)
 
 	# d represents P_D (private decryption exponent)
 	# find d such that (d*e)%phi = 1
-	d = modularInverse(e, phi)
+    d = modinv(e, phi)
 
 	#keys in tuple form. ((public encryption exponent,modulus),(private decryption exponent,modulus))
-	return ((e,n),(d,n))
+    return ((e,n),(d,n))
 
 def encrypt(key, x):
     """Encrypt the number ``x``.
@@ -215,9 +228,11 @@ def key_generator(file_save_location, deterministic=False):
         while p == q:
             q = generatePrime()
 
+    
+
     pub_key, priv_key = key_gen(p,q)
-    pub_key_file = open(file_save_location + os.path.sep + 'RSA_public_key.txt', 'w+')
-    priv_key_file = open(file_save_location + os.path.sep + 'RSA_private_key.txt', 'w+')
+    pub_key_file = open(file_save_location + os.path.sep + 'public.key', 'w+')
+    priv_key_file = open(file_save_location + os.path.sep + 'private.key', 'w+')
 
     pub_key_file.write(str(pub_key[0]) + ' ' + str(pub_key[1]))
     priv_key_file.write(str(priv_key[0]) + ' ' + str(priv_key[1]))
