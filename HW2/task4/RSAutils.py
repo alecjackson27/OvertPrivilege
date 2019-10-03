@@ -3,9 +3,6 @@ import os
 import sys
 from decimal import Decimal
 
-#Set recursion limit to 10 ^ 6 since the program works with such large numbers
-sys.setrecursionlimit(1000000)
-
 #
 # Helper function called by generatePrime() to check for primality.uses Miller-Rabin test,
 # a probabilistic method to determine whether a number is prime with near-certainty.
@@ -130,13 +127,24 @@ def egcd(a, b):
         g, y, x = egcd(b % a, a)
         return (g, x - (b // a) * y, y)
 
+# Implements extended euclid's algorithm. Used as helper by modular inverse function. Info on Extended Euclid's
+# Algorithm can be found at: https://en.wikipedia.org/wiki/Extended_Euclidean_algorithm
+def extendedEuclid(e, phi):
+    s, old_s = 0, 1
+    t, old_t = 1, 0
+    while e != 0:
+        quotient, phi, e = phi // e, e, phi % e
+        s, old_s = old_s, s - quotient * old_s
+        t, old_t = old_t, t - quotient * old_t
+    return phi, s, t
+
 # Returns the modular inverse D using extended euclid's algorithm
-def modinv(a, m):
-    g, x, y = egcd(a, m)
-    if g != 1:
-        raise Exception('modular inverse does not exist')
+def modularInverse(e, phi):
+    r, x, y = extendedEuclid(e, phi)
+    if r != 1:
+        print("Something has gone wrong with the calculation")
     else:
-        return x % m
+        return x % phi
 
 # generates both private key and public key
 # returns a tuple (public key, private key)
@@ -159,7 +167,7 @@ def key_gen(p, q):
 
 	# d represents P_D (private decryption exponent)
 	# find d such that (d*e)%phi = 1
-    d = modinv(e, phi)
+    d = modularInverse(e, phi)
 
 	#keys in tuple form. ((public encryption exponent,modulus),(private decryption exponent,modulus))
     return ((e,n),(d,n))
