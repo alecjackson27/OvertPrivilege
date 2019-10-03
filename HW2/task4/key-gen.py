@@ -5,8 +5,8 @@ from PyQt5.QtWidgets import *#QMainWindow, QLabel, QGridLayout, QWidget, QPushBu
 #    QApplication
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QSize
-
 from PyQt5.QtCore import pyqtSlot
+from RSAutils import *
 
 class KeyGenWindow(QMainWindow):
 
@@ -19,6 +19,11 @@ class KeyGenWindow(QMainWindow):
     def generateClick(self):
         # Call function to generate key. For now, just prints "Generate" to console
         print('Generate')
+        if os.path.exists(self.textbox.text()):
+            key_generator(self.textbox.text(), self.checkBox.isChecked())
+        else:
+            # give error message here
+            print("Error")
 
     def storeClick(self):
         # Call function to generate key. For now, just prints "Store" to console

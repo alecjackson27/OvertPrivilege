@@ -1,6 +1,6 @@
 import random
 import os
-from random import randint, randrange, getrandbits
+from decimal import Decimal
 
 #
 # Helper function called by generatePrime() to check for primality.uses Miller-Rabin test,
@@ -22,7 +22,7 @@ def isPrime(n):
         d //= 2
     # run 100 tests
     for i in range(100):
-        a = randrange(2, n - 1)
+        a = random.randrange(2, n - 1)
         x = pow(a, d, n)
         if x != 1 and x != n - 1:
             j = 1
@@ -40,7 +40,7 @@ def isPrime(n):
 #
 def generatePotentialPrime():
     # generate random 1024-bit number
-    p = getrandbits(1024)
+    p = random.getrandbits(1024)
     # If p is even, add 1, so as to not waste time checking for primality of even number
     if p % 2 == 0:
         p += 1
@@ -98,7 +98,7 @@ def generateDeterministicPrime():
     # the smallest composite number for which the above isDefPrime function will return a
     # false positive. This was determined by running the commented-out script below this
     # function. After generating the number, while it is not prime, add 1 to number
-    n = randint(2, 3317044064679887385961813)
+    n = random.randint(2, 3317044064679887385961813)
     while not isDefinitelyPrime(n):
         n += 1
     return n
@@ -118,6 +118,16 @@ def gcd(a, b):
         a, b = b, a % b
     return a
 
+# Returns the modular inverse D using extended euclid's algorithm
+def modularInverse(e, phi):
+    s, old_s = 0, 1
+    r, old_r = phi, e
+    while r > 0:
+        quotient = Decimal(old_r) / Decimal(r)
+        old_r, r = r, old_r - quotient * r
+        old_s, s = s, old_s - quotient * s
+    return int(old_s)
+
 # generates both private key and public key
 # returns a tuple (public key, private key)
 def key_gen(p, q):
@@ -136,9 +146,7 @@ def key_gen(p, q):
 
 	# d represents P_D (private decryption exponent)
 	# find d such that (d*e)%phi = 1
-	for d in range(3, phi, 2):
-		if (d*e)%phi == 1:
-			break
+	d = modularInverse(e, phi)
 
 	#keys in tuple form. ((public encryption exponent,modulus),(private decryption exponent,modulus))
 	return ((e,n),(d,n))
@@ -207,12 +215,12 @@ def key_generator(file_save_location, deterministic=False):
         while p == q:
             q = generatePrime()
 
-	pub_key, priv_key = key_gen(p,q)
-	pub_key_file = open(file_save_location + os.path.sep + 'RSA_public_key.txt', 'w+')
-	priv_key_file = open(file_save_location + os.path.sep + 'RSA_private_key.txt', 'w+')
+    pub_key, priv_key = key_gen(p,q)
+    pub_key_file = open(file_save_location + os.path.sep + 'RSA_public_key.txt', 'w+')
+    priv_key_file = open(file_save_location + os.path.sep + 'RSA_private_key.txt', 'w+')
 
-	pub_key_file.write(str(pub_key[0]) + ' ' + str(pub_key[1]))
-	priv_key_file.write(str(priv_key[0]) + ' ' + str(priv_key[1]))
+    pub_key_file.write(str(pub_key[0]) + ' ' + str(pub_key[1]))
+    priv_key_file.write(str(priv_key[0]) + ' ' + str(priv_key[1]))
 
-	pub_key_file.close()
-	priv_key_file.close()
+    pub_key_file.close()
+    priv_key_file.close()
