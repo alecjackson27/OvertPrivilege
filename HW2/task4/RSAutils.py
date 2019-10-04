@@ -159,10 +159,10 @@ def key_gen(p, q):
     # print("Phi:", phi)
 
 	# find any number e such that e is coprime with phi
-    e = random.randrange(1,phi)
+    e = random.randrange(3, phi)
     g = gcd(e, phi)
     while g != 1:
-	    e = random.randrange(1, phi)
+	    e = random.randrange(3, phi)
 	    g = gcd(e, phi)
 
 	# d represents P_D (private decryption exponent)
