@@ -3,10 +3,10 @@ import os
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtWidgets import *#QMainWindow, QLabel, QGridLayout, QWidget, QPushButton, \
 #    QApplication
-from PyQt5.QtGui import QIcon
+from PyQt5.QtGui import QIcon, QGuiApplication
 from PyQt5.QtCore import QSize
-
 from PyQt5.QtCore import pyqtSlot
+from RSAutils import *
 
 class KeyGenWindow(QMainWindow):
 
@@ -15,18 +15,37 @@ class KeyGenWindow(QMainWindow):
     @pyqtSlot()
     def on_click(self):
         self.textbox.setText(str(QFileDialog.getExistingDirectory(self, "Select Directory")))
+    
+    # Invalid file path message box
+    def errorMethod(self):
+        QMessageBox.critical(
+            self,
+            "Error",
+            "Path provided is not a valid directory"
+        )
+
+    def successMethod(self):
+        QMessageBox.about(
+            self,
+            "Success",
+            "Keys successfully generated"
+        )
 
     def generateClick(self):
         # Call function to generate key. For now, just prints "Generate" to console
-        print('Generate')
-
-    def storeClick(self):
-        # Call function to generate key. For now, just prints "Store" to console
-        print("Store")
+        # print('Generate')
+        self.generateButton.setEnabled(False)
+        if os.path.exists(self.textbox.text()):
+            if key_generator(self.textbox.text(), self.checkBox.isChecked()):
+                self.successMethod()
+        else:
+            # give error message here
+            self.errorMethod()
+        self.generateButton.setEnabled(True)
 
     # The help message box function
     def helpMethod(self):
-        QMessageBox.about(
+        QMessageBox.information(
             self,
             "Help",
             """This program generates a public key and corresponding\
@@ -36,7 +55,7 @@ class KeyGenWindow(QMainWindow):
             )
 
     def helpClick(self):
-        QMessageBox.about(
+        QMessageBox.information(
             self,
             "Deterministic vs Probabilistic Help",
             """Checking 'Deterministic' will ensure that the program \
@@ -87,25 +106,10 @@ class KeyGenWindow(QMainWindow):
         self.checkHelpButton.resize(20, 20)
         self.checkHelpButton.clicked.connect(self.helpClick)
 
-        # The label for the public key
-        self.publicLabel = QLabel(self)
-        self.publicLabel.setText('Public Key: ')
-        self.publicLabel.move(400 / 3, 80)
-
-        # The label for the private key
-        self.privateLabel = QLabel(self)
-        self.privateLabel.setText('Private Key: ')
-        self.privateLabel.move(400 / 3, 110)
-
         # The button to generate the keys
         self.generateButton = QPushButton('Generate', self)
-        self.generateButton.move(400 / 3 - 50, 165)
+        self.generateButton.move(150, 165)
         self.generateButton.clicked.connect(self.generateClick)
-
-        # The button to store the keys
-        self.storeButton = QPushButton('Store', self)
-        self.storeButton.move(800 / 3 - 50, 165)
-        self.storeButton.clicked.connect(self.storeClick)
 
         # The help option on the toolbar
         helpAct = QAction(QIcon('help.png'), '&Help', self)
@@ -123,12 +127,14 @@ class KeyGenWindow(QMainWindow):
     def resizeEvent(self, event):
         self.button.move(self.width() - 110, 20)
         self.textbox.resize(self.width() - 215, 30)
-        self.generateButton.move(self.width() / 3 - 50, self.height() - 75)
-        self.storeButton.move(2 * self.width() / 3 - 50, self.height() - 75)
-        self.publicLabel.move(self.width() / 3, self.height() / 2 - 40)
-        self.privateLabel.move(self.width() / 3, self.height() / 2 - 10)
+        self.generateButton.move(self.width() / 2 - 50, self.height() - 75)
         QMainWindow.resizeEvent(self, event)
 
+    # Keeps the clipboard global on Windows and Mac. Linux requires clipboard manager.
+    def closeEvent(self, event):
+        clipboard = QGuiApplication.clipboard()
+        event = QtCore.QEvent(QtCore.QEvent.Clipboard)
+        QGuiApplication.sendEvent(clipboard, event)
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
