@@ -3,7 +3,7 @@ import os
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtWidgets import *#QMainWindow, QLabel, QGridLayout, QWidget, QPushButton, \
 #    QApplication
-from PyQt5.QtGui import QIcon
+from PyQt5.QtGui import QIcon, QGuiApplication
 from PyQt5.QtCore import QSize
 from PyQt5.QtCore import pyqtSlot
 from RSAutils import decryption
@@ -106,6 +106,11 @@ class DecryptWindow(QMainWindow):
         self.plainbox.resize(self.width() - 110, self.height() - 110)
         QMainWindow.resizeEvent(self, event)
 
+    # Keeps the clipboard global on Windows and Mac. Linux requires clipboard manager.
+    def closeEvent(self, event):
+        clipboard = QGuiApplication.clipboard()
+        event = QtCore.QEvent(QtCore.QEvent.Clipboard)
+        QGuiApplication.sendEvent(clipboard, event)
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)

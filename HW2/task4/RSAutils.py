@@ -151,12 +151,12 @@ def modularInverse(e, phi):
 def key_gen(p, q):
 	# n is the mod for the RSA algorithm, and is included in both keys
     n = p * q
-    print("P", p)
-    print("Q", q)
+    # print("P", p)
+    # print("Q", q)
 
 	# phi is f(n), and is used to find both P_E (public encryption exponent) and P_D (private decryption exponent)
     phi = (p-1)*(q-1)
-    print("Phi:", phi)
+    # print("Phi:", phi)
 
 	# find any number e such that e is coprime with phi
     e = random.randrange(1,phi)
@@ -247,3 +247,5 @@ def key_generator(file_save_location, deterministic=False):
 
     pub_key_file.close()
     priv_key_file.close()
+    
+    return True
