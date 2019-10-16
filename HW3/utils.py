@@ -24,3 +24,14 @@ def binaryToDecimal(binary):
         binary2 = binary2 // 10
         i += 1
     return decimal
+
+
+def modularAddition(numList):
+    number = 0
+    for i in range(1, len(numList)):
+        number += numList[len(numList) - i]
+    number = (number + 6075380529345458860144577398704761614649) % (10 ** 31)
+    for i in range(1, len(numList)):
+        numList[len(numList) - i] = number % 10
+        number //= 10
+    return numList

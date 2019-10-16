@@ -67,10 +67,11 @@ def suzie_hash(input):
     # add '0's until it is 31 digits long, then tack a '3' at the end
     transposition_key = create_key(bits.pop())
     bits = shuffle_columns(transposition_key, bits)
-    print(bits)
+    return bits
 
 # just for me conveniently testing my code rn
 input_text = open("text.txt", 'r')
 input_text = input_text.readline()
 
-suzie_hash(input_text)
+print(suzie_hash(input_text))
+print(modularAddition(suzie_hash(input_text)))
