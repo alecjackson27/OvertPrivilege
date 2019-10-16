@@ -4,7 +4,7 @@
 def sum_list(array):
     sum = 0
     for item in array:
-        sum += int(item)
+        sum += ord(item)
     return sum
 
 
@@ -29,10 +29,10 @@ def binaryToDecimal(binary):
 
 def modularAddition(numList):
     number = 0
-    for i in range(1, len(numList)):
-        number += numList[len(numList) - i]
+    for i in range(len(numList)):
+        number += numList[len(numList) - 1 - i] * 10 ** i
     number = (number + 6075380529345458860144577398704761614649) % (10 ** 31)
-    for i in range(1, len(numList)):
+    for i in range(1, len(numList) + 1):
         numList[len(numList) - i] = number % 10
         number //= 10
     return numList

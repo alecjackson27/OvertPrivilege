@@ -70,8 +70,19 @@ def suzie_hash(input):
     return bits
 
 # just for me conveniently testing my code rn
+"""
 input_text = open("text.txt", 'r')
 input_text = input_text.readline()
 
+short_text = open("shortText.txt", 'r')
+short_text = short_text.readline()
+"""
+
+input_text = input()
 print(suzie_hash(input_text))
 print(modularAddition(suzie_hash(input_text)))
+
+"""
+print(suzie_hash(short_text))
+print(modularAddition(suzie_hash(short_text)))
+"""
