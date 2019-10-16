@@ -8,6 +8,7 @@ def sum_list(array):
     return sum
 
 
+
 def decimalToBinary(deci):
     converted = bin(deci).replace('0b', '')
     while len(converted) < 8:
@@ -35,3 +36,15 @@ def modularAddition(numList):
         numList[len(numList) - i] = number % 10
         number //= 10
     return numList
+
+# Function that converts an 8 bit binary string to a char array of 1's and 0's
+def binaryStrToCharArray(binary):
+    chars = []
+    if len(binary) == 8:
+        for i in range(len(binary)):
+            chars.append(binary[i])
+    else:
+        print("The given string is too large")
+    return chars
+# want to return an array
+
