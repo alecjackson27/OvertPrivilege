@@ -74,7 +74,7 @@ def input_hash(input):
     # add '0's until it is 31 digits long, then tack a '3' at the end
     transposition_key = create_key(bits.pop())
     bits = shuffle_columns(transposition_key, bits)
-    return bits, transposition_key
+    return bits
 
 
 def decimalToHex(number):
