@@ -74,22 +74,34 @@ def suzie_hash(input):
     # add '0's until it is 31 digits long, then tack a '3' at the end
     transposition_key = create_key(bits.pop())
     bits = shuffle_columns(transposition_key, bits)
-    return bits
+    return bits, transposition_key
 
 # just for me conveniently testing my code rn
 
+"""
 input_text = open("text.txt", 'r')
 input_text = input_text.readline()
-"""
+
 short_text = open("shortText.txt", 'r')
 short_text = short_text.readline()
-"""
+
 
 input_text = input()
 print(suzie_hash(input_text))
 print(modularAddition(suzie_hash(input_text)))
 
-"""
+
 print(suzie_hash(short_text))
 print(modularAddition(suzie_hash(short_text)))
 """
+
+if __name__ == "__main__":
+    input_text = input("Enter the input you wish to hash: ")
+    hashArray, key = suzie_hash(input_text)
+    hashArray = modularAddition(hashArray)
+    hashArray = shuffle_columns(hashArray, key)
+    hashArray = dot_product_sum(hashArray)
+    hashString = ""
+    for x in hashArray:
+        hashString += chr(x)
+    print(hashString)
