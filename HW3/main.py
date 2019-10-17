@@ -50,7 +50,6 @@ def input_hash(input):
         input = str(input)
 
     input = dot_product_sum_string(input)
-    print(input)
 
     # initialize the arrays
     bits = []
