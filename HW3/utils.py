@@ -5,7 +5,7 @@
 def sum_list(array):
     sum = 0
     for item in array:
-        sum += int(item)
+        sum += ord(item)
     return sum
 
 
@@ -54,7 +54,7 @@ def dp(array1, array2):
     product = 0
     for i in array1:
         for j in array2:
-            if (i == '1' && j == '1'):
+            if (i == '1' and j == '1'):
                 product += 1
     return product
 
@@ -62,7 +62,7 @@ def dp(array1, array2):
 def dot_product_sum(array):
     bin_array = []
     for item in array:
-    	binary = decimalToBinary(item)
+        binary = decimalToBinary(item)
         bin_array.append(binaryStrToCharArray(binary))
     for i in range(32):
         current_value = array[i]

@@ -24,7 +24,7 @@ def create_key(array):
             array.append('0')
         array.append('3')
     for i in range(len(array)):
-        array[i] = int(array[i])
+        array[i] = ord(array[i])
     return array
 
 def shuffle_columns(key, orig):
