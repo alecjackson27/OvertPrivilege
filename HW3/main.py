@@ -37,7 +37,7 @@ def shuffle_columns(key, orig):
         newOrdered.append(pairs[i][1])
     return newOrdered
 
-def suzie_hash(input):
+def input_hash(input):
     """
     at this point, input can be string or digits.
     if input is digits, will convert to string
@@ -97,7 +97,7 @@ def decimalToHex(number):
 
 if __name__ == "__main__":
     input_text = input("Enter the input you wish to hash: ")
-    hashArray, key = suzie_hash(input_text)
+    hashArray, key = input_hash(input_text)
     #hashArray = modularAddition(hashArray)
     #print("modular hash:", hashArray)
     #hashArray = shuffle_columns(hashArray, key)
