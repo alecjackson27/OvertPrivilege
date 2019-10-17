@@ -74,3 +74,18 @@ def dot_product_sum(array):
         array[i] = current_value
     return array
 
+def dot_product_sum_string(string):
+    bin_array = []
+    newString = ""
+    for item in string:
+        binary = decimalToBinary(ord(item))
+        bin_array.append(binaryStrToCharArray(binary))
+    for i in range(len(string)):
+        current_value = ord(string[i])
+        for j in range(len(string)):
+            product = dp(bin_array[i], bin_array[j])
+            current_value = ((current_value + product) % 97) + 32
+            binary = decimalToBinary(current_value)
+            bin_array[i] = binaryStrToCharArray(binary)
+        newString += chr(current_value)
+    return newString

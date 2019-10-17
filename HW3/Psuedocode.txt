@@ -1,0 +1,27 @@
+Pseudocode:
+
+1. take a variable-sized input
+2. for each char c1 in input string:
+	for each digit c2:
+		convert c1 and c2 into vectors, v1 and v2 respectively, of size 8, where the elements of the vector are the ASCII binary digits
+		c1 = chr((ord(c1) + dotProduct(v1, v2)) % 95) + 32 # modular division while keeping c1 printable ASCII
+3. make 33 columns(initialize multidimensional list with sub-lists)
+4. add each character to the column corresponding to its index modulo 33
+5. each of the 32 character of the hash is the sum modulo 10 of the elements of the corresponding column (from the first 32 columns; the remaining column will be used as a key for shuffling the digits)
+6. while the hash contains less than 32 digits:
+	calculate the sum of all digits modulo 10
+	append this sum to the hash
+7. if the key column contains more than 32 digits:
+	use the same make columns/add process used to get 32 columns in step 4
+   elif the key column contains less than 32 digits
+	add '0's until it is 31 digits long, then tack a '3' at the end
+   else go to step 7
+8. the column key is used to shuffle the columns
+9. The shuffled columns, each containing one digit, are converted to 8-bit binary numbers
+10. for each digit d1:
+	for each digit d2:
+		convert d1 and d2 into vectors, v1 and v2 respectively, of size 8, where the elements of the vector are the binary digits
+		d1 = (d1 + dotProduct(v1, v2)) % 256
+11. for each digit d1:
+	d1 = d1 % 16
+12. Create final hash. Each of the 32 digits in this hash is the hexadecimal representation of the corresponding digit computed in step 10

@@ -1,0 +1,16 @@
+Our Function Satisfies the Properties of a Cryptographic Hash Function Through the Following:
+
+Deterministic:
+-Our function works the same way every time for any input. A single input will always result in the same output.
+
+Pre-Image Resistant:
+-The output's fixed length of 128 bits creates pre-image resistance. The output's higher length also helps create pre-image resistance(sources online indicate that a cryptographic hash function's output should be at least 90 bits long in order to be pre-image resistant. Furthermore, by adding the dot products of vectors created by all the binary representations in the input string to each individual output character, then a slight change in the input results in a drastic change in the output. in essence, changing one character in the input inherently changes all characters in the output.
+
+Collision Resistant:
+-No hash function is completely collision resistant, but ours is quite collision resistant. With 128 bits of output and much variation in output, the likelihood of collision is extremely small
+
+Computationally Efficient:
+-The hash function's computations are and quickly carried out by a computer. The function calculates its output within a matter of milliseconds
+
+One Way Function:
+-Our hash function is one-way only through extensive use of modular addition and dot products

@@ -24,7 +24,10 @@ def create_key(array):
             array.append('0')
         array.append('3')
     for i in range(len(array)):
-        array[i] = int(array[i])
+        if type(array[i]) != "<class 'str'>":
+            array[i] = ord(array[i])
+        else:
+            array[i] = int(array[i])
     return array
 
 def shuffle_columns(key, orig):
@@ -37,7 +40,7 @@ def shuffle_columns(key, orig):
         newOrdered.append(pairs[i][1])
     return newOrdered
 
-def suzie_hash(input):
+def input_hash(input):
     """
     at this point, input can be string or digits.
     if input is digits, will convert to string
@@ -45,6 +48,8 @@ def suzie_hash(input):
     """
     if type(input) != "<class 'str'>":
         input = str(input)
+
+    input = dot_product_sum_string(input)
 
     # initialize the arrays
     bits = []
@@ -64,7 +69,7 @@ def suzie_hash(input):
         else:
             numToAdd = 0
             for j in range(i):
-                numToAdd = (numToAdd + bits[j] + j) % 10
+                numToAdd = ((numToAdd + bits[j] + j)) % 10
             bits[i] = numToAdd
     
     # the remaining column will be used as a key for shuffling the digits
@@ -74,7 +79,7 @@ def suzie_hash(input):
     # add '0's until it is 31 digits long, then tack a '3' at the end
     transposition_key = create_key(bits.pop())
     bits = shuffle_columns(transposition_key, bits)
-    return bits, transposition_key
+    return bits
 
 
 def decimalToHex(number):
@@ -97,7 +102,7 @@ def decimalToHex(number):
 
 if __name__ == "__main__":
     input_text = input("Enter the input you wish to hash: ")
-    hashArray, key = suzie_hash(input_text)
+    hashArray = input_hash(input_text)
     #hashArray = modularAddition(hashArray)
     #print("modular hash:", hashArray)
     #hashArray = shuffle_columns(hashArray, key)
