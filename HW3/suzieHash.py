@@ -51,6 +51,7 @@ def suzie_hash(input):
     for i in range(33):
         bits.append([])
     
+
     # add elements to array
     for i in range(len(input)):
         index = i % 33
@@ -58,7 +59,13 @@ def suzie_hash(input):
 
     # add together all elements of first 32 columns and take ones digit
     for i in range(32):
-        bits[i] = sum_list(bits[i])%10
+        if sum_list(bits[i]) % 10 !=  0:
+            bits[i] = sum_list(bits[i])%10
+        else:
+            numToAdd = 0
+            for j in range(i):
+                numToAdd = (numToAdd + bits[j] + j) % 10
+            bits[i] = numToAdd
     
     # the remaining column will be used as a key for shuffling the digits
     # if the column contains more than 32 digits
@@ -70,10 +77,10 @@ def suzie_hash(input):
     return bits
 
 # just for me conveniently testing my code rn
-"""
+
 input_text = open("text.txt", 'r')
 input_text = input_text.readline()
-
+"""
 short_text = open("shortText.txt", 'r')
 short_text = short_text.readline()
 """
