@@ -32,7 +32,7 @@ def modularAddition(numList):
     number = 0
     for i in range(1, len(numList)):
         number += numList[len(numList) - i]
-    number = (number + 6075380529345458860144577398704761614649) % (10 ** 31)
+    number = (number + 6075380529345458860144577398704761614649) % (10 ** 32)
     for i in range(1, len(numList)):
         numList[len(numList) - i] = number % 10
         number //= 10
@@ -68,7 +68,7 @@ def dot_product_sum(array):
         current_value = array[i]
         for j in range(32):
             product = dp(bin_array[i], bin_array[j])
-            current_value = ((current_value + product) % 95) + 32
+            current_value = ((current_value + product) % 256)
             binary = decimalToBinary(current_value)
             bin_array[i] = binaryStrToCharArray(binary)
         array[i] = current_value

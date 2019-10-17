@@ -78,7 +78,7 @@ def suzie_hash(input):
 
 # just for me conveniently testing my code rn
 
-"""
+
 input_text = open("text.txt", 'r')
 input_text = input_text.readline()
 
@@ -86,22 +86,45 @@ short_text = open("shortText.txt", 'r')
 short_text = short_text.readline()
 
 
-input_text = input()
-print(suzie_hash(input_text))
-print(modularAddition(suzie_hash(input_text)))
+#input_text = input()
+#print(suzie_hash(input_text))
+#print(modularAddition(suzie_hash(input_text)))
 
 
-print(suzie_hash(short_text))
-print(modularAddition(suzie_hash(short_text)))
-"""
+#print(suzie_hash(short_text))
+#print(modularAddition(suzie_hash(short_text)))
+
+
+def decimalToHex(number):
+    if number < 10:
+        return str(number)
+    if number == 10:
+        return 'a'
+    if number == 11:
+        return 'b'
+    if number == 12:
+        return 'c'
+    if number == 13:
+        return 'd'
+    if number == 14:
+        return 'e'
+    if number == 15:
+        return 'f'
+    return 'invalid number'
+
 
 if __name__ == "__main__":
+    #input_text = open("text.txt", 'r')
+    #input_text = input_text.readline()
     input_text = input("Enter the input you wish to hash: ")
     hashArray, key = suzie_hash(input_text)
-    hashArray = modularAddition(hashArray)
-    hashArray = shuffle_columns(hashArray, key)
+    print("suzie hash:", hashArray)
+    #hashArray = modularAddition(hashArray)
+    #print("modular hash:", hashArray)
+    #hashArray = shuffle_columns(hashArray, key)
+    #print("shuffled:", hashArray)
     hashArray = dot_product_sum(hashArray)
     hashString = ""
     for x in hashArray:
-        hashString += chr(x)
+        hashString += decimalToHex(x%16)
     print(hashString)
