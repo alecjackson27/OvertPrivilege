@@ -49,6 +49,9 @@ def input_hash(input):
     if type(input) != "<class 'str'>":
         input = str(input)
 
+    input = dot_product_sum_string(input)
+    print(input)
+
     # initialize the arrays
     bits = []
     for i in range(33):
@@ -67,7 +70,7 @@ def input_hash(input):
         else:
             numToAdd = 0
             for j in range(i):
-                numToAdd = (numToAdd + bits[j] + j) % 10
+                numToAdd = ((numToAdd + bits[j] + j) ** 2) % 10
             bits[i] = numToAdd
     
     # the remaining column will be used as a key for shuffling the digits
