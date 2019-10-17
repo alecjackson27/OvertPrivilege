@@ -70,7 +70,7 @@ def input_hash(input):
         else:
             numToAdd = 0
             for j in range(i):
-                numToAdd = ((numToAdd + bits[j] + j) ** 2) % 10
+                numToAdd = ((numToAdd + bits[j] + j)) % 10
             bits[i] = numToAdd
     
     # the remaining column will be used as a key for shuffling the digits
