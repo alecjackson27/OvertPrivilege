@@ -24,7 +24,10 @@ def create_key(array):
             array.append('0')
         array.append('3')
     for i in range(len(array)):
-        array[i] = int(array[i])
+        if type(array[i]) != "<class 'str'>":
+            array[i] = ord(array[i])
+        else:
+            array[i] = int(array[i])
     return array
 
 def shuffle_columns(key, orig):
@@ -97,7 +100,7 @@ def decimalToHex(number):
 
 if __name__ == "__main__":
     input_text = input("Enter the input you wish to hash: ")
-    hashArray, key = input_hash(input_text)
+    hashArray = input_hash(input_text)
     #hashArray = modularAddition(hashArray)
     #print("modular hash:", hashArray)
     #hashArray = shuffle_columns(hashArray, key)
