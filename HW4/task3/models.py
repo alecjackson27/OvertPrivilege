@@ -12,3 +12,4 @@ class User(models.Model):
     city = models.CharField(max_length=50)
     state = models.CharField(max_length=15)
     zip = models.PositiveIntegerField()
+    failed_logins = models.IntegerField(default=0)
