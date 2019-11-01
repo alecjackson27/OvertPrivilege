@@ -1,0 +1,6 @@
+1. Task 1 and 2
+1. Create sign up page
+1. Create User database model with first name, last name, date of birth, telephone number, mailing address, and email (which is also user ID). Shouldn't be the default django User model, as that handles authentication automatically and we are supposed to implement it ourselves
+2. Using scripts from task 1 and 2, implement signup and ensure user's password is secure.
+3. Implement hashing and store salt and password hash digests in separate files
+4. Implement logic for locking out user after failed login attempts
