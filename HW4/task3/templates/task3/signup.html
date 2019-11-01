@@ -13,7 +13,7 @@
               <hr class="mt-0 mb-4">
               <div id="formContent">
                 <!-- Signup Form -->
-                <form>
+                <form action="{% url 'create' %}" method="POST"> {% csrf_token %}
                   <p>Personal Information:</p>
                   <input type="text" id="firstname" name="first name" placeholder="First Name">
                   <input type="text" id="lastname" name="last name" placeholder="Last Name">
@@ -36,9 +36,9 @@
                   <input type="date" id="birthdate" name="birth date">
                   <br><br>
                   <p>Password:</p>
-                  <input type="text" id="password" name="login" placeholder="Password">
+                  <input type="text" id="password" name="password" placeholder="Password">
                   <br>
-                  <input type="text" id="password" name="login" placeholder="Confirm Password">
+                  <input type="text" id="password" name="confirm password" placeholder="Confirm Password">
                   <br>
                   <input type="submit" value="Submit">
                 </form>
