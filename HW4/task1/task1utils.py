@@ -37,14 +37,17 @@ def add_digit_at_end(word):
 def add_digit_at_penultimate(word):
     list = []
     for i in range(9):
-        temp = word[:len(word)-2] + str(i) + word[len(word)-1]
-        list.append(temp, word[1] + 1)
+        temp = word[0][:len(word[0])-1] + str(i) + word[0][len(word[0])-1]
+        list.append([temp, word[1] + 1])
     return list
 
 def add_special_char_at_end(word):
     special_chars = ['!', '@', '#', '$', '%', '*', '&']
-    selected_char = special_chars[random.randint(0,6)]
-    return word + selected_char
+    list = []
+    for i in special_chars:
+        temp = word[0] + i
+        list.append([temp, word[1] + 1])
+    return list
 
 def repeat_word(word):
     return word * 2
@@ -61,7 +64,7 @@ dispatcher = {
     6: replace_s_dollarSign,
     7: add_digit_at_end,
     8: add_special_char_at_end,
-    9: add_digit_at_penultimate,
+    9: replace_a_atSymbol,
     10: repeat_word,
     11: repeat_word_thrice
 }
@@ -69,17 +72,16 @@ dispatcher = {
 def create_list_of_passwords(input, num_passwords):
     list = []
     queue = []
-    queue.append([input, 1])
+    queue.append([input, 0])
     queue.append([repeat_word(input), 1])
     queue.append([repeat_word_thrice(input), 1])
     while len(queue) > 0:
         word = queue.pop(0)
-        print(word[0])
-        if word[1] > 3:
+        if word[1] > 2:
             break
-        for i in range(1, 9):
+        for i in range(1, 11):
             queue_flag = True
-            if i == 7 or i == 9:
+            if i in {7, 8}:
                 edit = dispatcher[i](word)
                 for x in queue:
                     if queue[0] == edit[len(edit) - 1]:
