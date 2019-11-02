@@ -77,23 +77,34 @@ def create_list_of_passwords(input, num_passwords):
     queue.append([repeat_word_thrice(input), 1])
     while len(queue) > 0:
         word = queue.pop(0)
+        list.append(word)
         if word[1] > 2:
             break
         for i in range(1, 11):
             queue_flag = True
+            list_flag = True
             if i in {7, 8}:
                 edit = dispatcher[i](word)
                 for x in queue:
-                    if queue[0] == edit[len(edit) - 1]:
+                    if x[0] == edit[len(edit) - 1]:
                         queue_flag = False
-                if queue_flag and edit[0] not in list:
+                        break
+                for x in list:
+                    if x[0] == edit[len(edit) - 1]:
+                        list_flag = False
+                        break
+                if queue_flag and list_flag:
                     queue += edit
             else:
                 edit = dispatcher[i](word[0])
                 for x in queue:
-                    if queue[0] == edit:
+                    if x[0] == edit:
                         queue_flag = False
-                if queue_flag and edit not in list:
+                        break
+                for x in list:
+                    if x[0] == edit:
+                        list_flag = False
+                        break
+                if queue_flag and list_flag:
                     queue.append([edit, word[1] + 1])
-        list.append(word)
     return list
