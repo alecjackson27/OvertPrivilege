@@ -1,5 +1,5 @@
 from django.db import models
-from datetime import timezone, datetime
+from django.utils import timezone
 
 # Create your models here.
 
@@ -14,4 +14,4 @@ class User(models.Model):
     state = models.CharField(max_length=15)
     zip = models.PositiveIntegerField()
     failed_logins = models.IntegerField(default=0)
-    locked_out_until = models.DateTimeField(default="1970-01-01 11:11")
+    locked_out_until = models.DateTimeField(default=timezone.now)
