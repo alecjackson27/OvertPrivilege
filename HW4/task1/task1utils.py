@@ -28,8 +28,18 @@ def replace_s_5(word):
         return word + 'S'
 
 def add_digit_at_end(word):
-    digit = str(random.randint(1, 999))
-    return word + digit
+    list = []
+    for i in range(9):
+        temp = word[0] + str(i)
+        list.append([temp, word[1] + 1])
+    return list
+
+def add_digit_at_penultimate(word):
+    list = []
+    for i in range(9):
+        temp = word[:len(word)-2] + str(i) + word[len(word)-1]
+        list.append(temp, word[1] + 1)
+    return list
 
 def add_special_char_at_end(word):
     special_chars = ['!', '@', '#', '$', '%', '*', '&']
@@ -37,10 +47,10 @@ def add_special_char_at_end(word):
     return word + selected_char
 
 def repeat_word(word):
-    ret = ''
-    for i in range(random.randint(1,4)):
-        ret += word
-    return ret
+    return word * 2
+
+def repeat_word_thrice(word):
+    return word * 3
 
 dispatcher = {
     1: mirror,
@@ -51,17 +61,37 @@ dispatcher = {
     6: replace_s_dollarSign,
     7: add_digit_at_end,
     8: add_special_char_at_end,
-    9: repeat_word
+    9: add_digit_at_penultimate,
+    10: repeat_word,
+    11: repeat_word_thrice
 }
 
 def create_list_of_passwords(input, num_passwords):
     list = []
-    for i in range(num_passwords):
-        word = input
-        options = [1,2,3,4,5,6,7,8,9]
-        for j in range(3):
-            random.shuffle(options)
-            word = dispatcher[options[0]](word)
-            del options[0]
+    queue = []
+    queue.append([input, 1])
+    queue.append([repeat_word(input), 1])
+    queue.append([repeat_word_thrice(input), 1])
+    while len(queue) > 0:
+        word = queue.pop(0)
+        print(word[0])
+        if word[1] > 3:
+            break
+        for i in range(1, 9):
+            queue_flag = True
+            if i == 7 or i == 9:
+                edit = dispatcher[i](word)
+                for x in queue:
+                    if queue[0] == edit[len(edit) - 1]:
+                        queue_flag = False
+                if queue_flag and edit[0] not in list:
+                    queue += edit
+            else:
+                edit = dispatcher[i](word[0])
+                for x in queue:
+                    if queue[0] == edit:
+                        queue_flag = False
+                if queue_flag and edit not in list:
+                    queue.append([edit, word[1] + 1])
         list.append(word)
     return list
