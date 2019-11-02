@@ -1,13 +1,6 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
-import random
-
-def generate_salt():
-    ALPHABET = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    salt = ""
-    for i in range(16):
-        salt += random.choice(ALPHABET)
-    return salt
+from .utils import *
 
 # Create your views here.
 def index(request):
