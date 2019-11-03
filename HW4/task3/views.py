@@ -1,5 +1,7 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
+from django.views import generic
+from .models import User
 from .utils import *
 
 # Create your views here.
@@ -19,3 +21,7 @@ def create(request):
         return HttpResponseRedirect('/thanks/')
 
         # Else take user back to form and give an error message
+
+class UserDetailView(generic.DetailView):
+    model = User
+    template_name = 'task3/user_detail.html'
