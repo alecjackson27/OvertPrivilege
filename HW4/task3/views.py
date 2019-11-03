@@ -1,5 +1,6 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
+from .utils import *
 
 # Create your views here.
 def index(request):

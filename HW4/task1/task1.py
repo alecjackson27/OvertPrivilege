@@ -8,4 +8,6 @@ userInput = input("Please enter a word to base your password off of: ")
 list = create_list_of_passwords(userInput, 5)
 
 # output list of passwords
-print(list)
+
+for word in list:
+    print(word[0])

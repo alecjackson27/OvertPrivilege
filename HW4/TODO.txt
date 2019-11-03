@@ -1,8 +1,6 @@
 TO DO:
 
-1. Write python script which fulfills task 1 (will likely have to utilize breadth-first search to create exhaustive list)
-1. Write python script which fulfills task 2 (will also need breath-first search)
-1. Create User database model with first name, last name, date of birth, telephone number, mailing address, and email (which is also user ID). Shouldn't be the default django User model, as that handles authentication automatically and we are supposed to implement it ourselves (Miles is doing this one)
+1. Write python script which fulfills task 2
 2. Using scripts from task 1 and 2, implement signup and ensure user's password is secure before creating a new User in the database.
-3. Implement hashing and store salt and password hash digests in separate files
+3. Implement hashing and store password hash digests in separate password.txt file (the util function(s) which do this will be defined in task3/utils.py)
 4. Implement logic for locking out user after failed login attempts
