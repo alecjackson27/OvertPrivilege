@@ -69,7 +69,7 @@ dispatcher = {
     11: repeat_word_thrice
 }
 
-def create_list_of_passwords(words):
+def create_list_of_passwords(words, edit_distance=2):
     list = []
     queue = []
     queue.append([words, 0])
@@ -78,7 +78,7 @@ def create_list_of_passwords(words):
     while len(queue) > 0:
         word = queue.pop(0)
         list.append(word)
-        if word[1] > 2:
+        if word[1] > edit_distance:
             break
         for i in range(1, 11):
             queue_flag = True
