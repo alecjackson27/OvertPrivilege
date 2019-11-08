@@ -28,16 +28,27 @@ def replace_s(word):
     else:
         return word
 
+def cap(word):
+    return word.capitalize()
 
+def swap_case(word):
+    word = word.capitalize()
+    return word.swapcase()
+
+def to_upper(word):
+    return word.upper()
 
 
 dispatcher = {
     0: replace_e_3,
     1: replace_i_exclamation,
     2: replace_a_atSymbol,
-    3: replace_s
+    3: replace_s,
+    4: cap,
+    5: swap_case,
+    6: to_upper
 }
-
+"""
 def create_list_of_passwords(words,numbers):
     random.seed(a=None,version=2)
     list = []
@@ -72,4 +83,30 @@ def create_list_of_passwords(words,numbers):
             list.append(replacement)
 
     random.shuffle(list)
+    return list
+"""
+def create_list_of_passwords(words):
+    list = []
+    queue = []
+    for i in words:
+        queue.append([i, 0])
+    while len(queue) > 0:
+        word = queue.pop(0)
+        list.append(word)
+        #if word[1] > 3:
+        #    break
+        for i in range(1, 7):
+            queue_flag = True
+            list_flag = True
+            edit = dispatcher[i](word[0])
+            for x in queue:
+                if x[0] == edit:
+                    queue_flag = False
+                    break
+            for x in list:
+                if x[0] == edit:
+                    list_flag = False
+                    break
+            if queue_flag and list_flag:
+                queue.append([edit, word[1] + 1])
     return list
