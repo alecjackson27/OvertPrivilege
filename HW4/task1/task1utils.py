@@ -73,14 +73,12 @@ def create_list_of_passwords(words, edit_distance=2):
     list = []
     queue = []
     queue.append([words, 0])
-    queue.append([repeat_word(words), 1])
-    queue.append([repeat_word_thrice(words), 1])
     while len(queue) > 0:
         word = queue.pop(0)
         list.append(word)
         if word[1] > edit_distance:
             break
-        for i in range(1, 11):
+        for i in range(1, 12):
             queue_flag = True
             list_flag = True
             if i in {7, 8}:
