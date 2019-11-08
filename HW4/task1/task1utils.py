@@ -69,12 +69,12 @@ dispatcher = {
     11: repeat_word_thrice
 }
 
-def create_list_of_passwords(input, num_passwords):
+def create_list_of_passwords(words):
     list = []
     queue = []
-    queue.append([input, 0])
-    queue.append([repeat_word(input), 1])
-    queue.append([repeat_word_thrice(input), 1])
+    queue.append([words, 0])
+    queue.append([repeat_word(words), 1])
+    queue.append([repeat_word_thrice(words), 1])
     while len(queue) > 0:
         word = queue.pop(0)
         list.append(word)

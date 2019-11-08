@@ -42,8 +42,9 @@ words.append(temp)
 if apt != '':
 	numbers.append(apt)
 
-passwords = create_list_of_passwords(words,numbers)
+passwords = create_list_of_passwords(words)
 for password in passwords:
 	print(password[0])
+print("Any password which contains the following numbers:", numbers, ("(will be checked with Python's string.contains() method)"))
 
 

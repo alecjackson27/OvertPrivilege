@@ -85,17 +85,16 @@ def create_list_of_passwords(words,numbers):
     random.shuffle(list)
     return list
 """
-def create_list_of_passwords(input, num_passwords):
+def create_list_of_passwords(words):
     list = []
     queue = []
-    print(input)
-    for i in input:
+    for i in words:
         queue.append([i, 0])
     while len(queue) > 0:
         word = queue.pop(0)
         list.append(word)
-        if word[1] > 3:
-            break
+        #if word[1] > 3:
+        #    break
         for i in range(1, 7):
             queue_flag = True
             list_flag = True
