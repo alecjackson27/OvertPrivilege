@@ -8,6 +8,6 @@ with open(read_path, 'r') as passwordFile:
     for word in passwordFile:
         # Create a flag so the application can report which word a password matched with
         write_file.write("$ ")
-        for created in create_list_of_passwords(word.strip(), 5):
+        for created in create_list_of_passwords(word.strip()):
             write_file.write(created[0] + ' ')
 

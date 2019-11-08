@@ -1,6 +1,5 @@
 TO DO:
 
-1. Write python script which fulfills task 2
 2. Using scripts from task 1 and 2, implement signup and ensure user's password is secure before creating a new User in the database.
 3. Implement hashing and store password hash digests in separate password.txt file (the util function(s) which do this will be defined in task3/utils.py)
 4. Implement logic for locking out user after failed login attempts
