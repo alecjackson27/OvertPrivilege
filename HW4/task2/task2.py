@@ -44,6 +44,6 @@ if apt != '':
 
 passwords = create_list_of_passwords(words,numbers)
 for password in passwords:
-	print(password)
+	print(password[0])
 
 
