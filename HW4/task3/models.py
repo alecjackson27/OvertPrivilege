@@ -17,4 +17,4 @@ class User(models.Model):
     zip = models.CharField(max_length=5)
     salt = models.CharField(max_length=16, default=generate_salt)
     failed_logins = models.IntegerField(default=0)
-    locked_out_until = models.DateTimeField(default=timezone.now)
+    locked_out_until = models.DateTimeField(default=timezone.datetime.min)
