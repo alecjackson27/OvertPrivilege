@@ -47,7 +47,7 @@ def login(request):
             user[0].failed_logins += 1
             user[0].save()
             if user[0].failed_logins % 3 == 0:
-                minutes = user[0].failed_logins / 3
+                minutes = 2 ** (user[0].failed_logins / 3 - 1)
                 user[0].locked_out_until = timezone.now() + \
                     timedelta(minutes=minutes)
                 user[0].save()
