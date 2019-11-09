@@ -26,7 +26,7 @@ def login(request):
             messages.warning(request, "No user with that email is registered")
             url = "../task3/"
             return HttpResponseRedirect(url, request)
-        elif user[0].locked_out_until > timezone.now():
+        elif user[0].locked_out_until > timezone.localtime(timezone.now()):
             messages.warning(request, "Too many failed login attempts. "
             + (user[0].email + " is locked out until "
             + user[0].locked_out_until.strftime("%m/%d/%Y, %H:%M:%S")))
@@ -48,7 +48,7 @@ def login(request):
             user[0].save()
             if user[0].failed_logins % 3 == 0:
                 minutes = 2 ** (user[0].failed_logins / 3 - 1)
-                user[0].locked_out_until = timezone.now() + \
+                user[0].locked_out_until = timezone.localtime(timezone.now()) + \
                     timedelta(minutes=minutes)
                 user[0].save()
                 messages.warning(request, "Too many failed login attempts. "
