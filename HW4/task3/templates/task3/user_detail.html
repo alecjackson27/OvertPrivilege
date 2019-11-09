@@ -16,13 +16,13 @@
                   <div id = "info">
                       <p>{{ user.email }}</p>
                       <p>{{ user.birth_date }}</p>
-                      <p>{{ user.street }} {% if user.apt != " "%}<b>#{{ user.apt }}</b></p>
+                      <p>{{ user.street }} {% if user.apt != "" %}<b>#{{ user.apt }}</b> {% endif %}</p>
                       <p>{{ user.city }}, {{ user.state }}</p>
                       <p>{{ user.state }} {{ user.zip }}</p>
                   </div>
   
                   <div id="formFooter">
-                      <a class="underlineHover" href="{% url 'signout' %}">Sign Out</a>
+                      <a class="underlineHover" href="{% url 'index' %}">Sign Out</a>
                   </div>
                 </div>
               </div>

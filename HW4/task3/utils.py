@@ -18,10 +18,26 @@ def calculate_hash(password, salt, userID):
     shaw1 = hashlib.sha1()
     shaw1.update(passSalt.encode('utf-8'))
     theHash = shaw1.hexdigest()
-    combo = userID + " " + theHash
+    combo = str(userID) + " " + theHash
     theFile = open("passwords.txt","a") #not sure if it gets to the file or not
     theFile.write(combo + "\n")
     theFile.close()
+
+def get_password_byID(id):
+    file = open("passwords.txt", 'r')
+    passwords = file.read()
+    lines = passwords.split('\n')
+    for line in lines:
+        print(line)
+        user, hash = line.split()
+        print(user)
+        print(id)
+        if int(user) == id:
+            return hash
+    return -1
+
+#print(get_password_byID(input()))
+
 
 #
 # TO DO: Write function which takes as parameters a password, salt, and user ID number. The function
