@@ -61,7 +61,7 @@ def create_list_of_passwords(words):
         list.append(word)
         #if word[1] > 3:
         #    break
-        for i in range(1, 8):
+        for i in range(8):
             queue_flag = True
             list_flag = True
             edit = dispatcher[i](word[0])
