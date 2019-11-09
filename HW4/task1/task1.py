@@ -1,4 +1,4 @@
-from task1utils import *
+from .task1utils import *
 
 # get user input
 userInput = input("Please enter a word to base your password off of: ")

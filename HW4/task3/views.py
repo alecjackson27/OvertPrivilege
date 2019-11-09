@@ -1,8 +1,10 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.views import generic
+import re
 from .models import User
 from .utils import *
+from task2 import task2
 
 # Create your views here.
 def index(request):
@@ -17,18 +19,30 @@ def create(request):
         print(request.POST)
         # Use form data (contained in request.POST) to validate info using methods from tasks 1 and 2
         with open('../task1/createdPasswords.txt', 'r') as f:
-            ECLP = f.read().split()
+            ECLP1 = f.read().split()
         dictionary_word = ""
-        for i in range(len(ECLP)):
-            if ECLP[i] =="$":
-                dictionary_word = ECLP[i + 1]
-            elif ECLP[i] == request.POST['password']:
+        for i in range(len(ECLP1)):
+            if ECLP1[i] =="$":
+                dictionary_word = ECLP1[i + 1]
+            elif ECLP1[i] == request.POST['password']:
                 # Password is a variation of dictionary_word. Return to signup and inform user
                 print("Placeholder")
 
         birth_date = request.POST['birth date'][6:8] + "/" + request.POST['birth date'][8:] \
             + "/" + request.POST['birth date'][:5]
 
+        phone = re.sub("[^0-9]", "", request.POST['phone'])
+        if len(phone) != 10:
+            # Number is the wrong length. Return to signup and inform user
+            print("Placeholder")
+        else:
+            phone = phone[:4] + "-" + phone[4:7] + "-" + phone[7:]
+
+        ECLP2 = task2(request.POST['first'], request.POST['last'], request.POST['email'],
+        phone, birth_date, request.POST['street'], request.POST['apt'], request.POST['city'],
+        request.POST['state'], request.POST['zip'])
+        
+        
         # If data checks out, create a new user with form data and save it in the database, then
         # save hashed password and salt to respective files. Then redirect to a new URL:
         return HttpResponseRedirect('/thanks/')
