@@ -11,6 +11,13 @@
               <h1 class="mt-2">Login</h1>
               <hr class="mt-0 mb-4">
               <div id="formContent">
+                  {% if messages %}
+                  <div class="messages">
+                      {% for message in messages %}
+                      <p style="color:red"{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+                      {% endfor %}
+                  </div>
+                  {% endif %}
                 <!-- Tabs Titles -->
                 <!-- Login Form -->
                 <form action="{% url 'login' %}" method="GET">

@@ -18,7 +18,9 @@ def login(request):
         user = User.objects.filter(email=request.GET['login'])
         if len(user) == 0:
             # No such user, return to login and tell user
-            print("placeholder")
+            messages.warning(request, "No user with that email is registered")
+            url = "../task3/"
+            return HttpResponseRedirect(url, request)
         elif calculate_hash2(request.GET['password'], user[0].salt) == get_password_byID(user[0].id):
             request.session.__setitem__("authentication", get_password_byID(user[0].id))
             request.session.__setitem__('authenticate_email', user[0].email)
@@ -30,7 +32,9 @@ def login(request):
         else:
             # Invalid login credentials, return to login and tell user. Increment failed logins
             # and, if necessary, lock user out
-            print("placeholder")
+            messages.warning(request, "Invalid login")
+            url = "../task3/"
+            return HttpResponseRedirect(url, request)
 
     
 def logout(request):
