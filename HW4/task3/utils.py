@@ -23,6 +23,14 @@ def calculate_hash(password, salt, userID):
     theFile.write(combo + "\n")
     theFile.close()
 
+def calculate_hash2(password, salt):
+    passSalt = password + str(salt)
+
+    shaw1 = hashlib.sha1()
+    shaw1.update(passSalt.encode('utf-8'))
+    theHash = shaw1.hexdigest()
+    return theHash
+
 def get_password_byID(id):
     file = open("passwords.txt", 'r')
     passwords = file.read()

@@ -13,10 +13,10 @@
               <div id="formContent">
                 <!-- Tabs Titles -->
                 <!-- Login Form -->
-                <form>
+                <form action="{% url 'login' %}" method="GET">
                   <input type="email" id="login" class="fadeIn second" name="login" placeholder="email">
                   <br>
-                  <input type="text" id="password" class="fadeIn third" name="login" placeholder="password">
+                  <input type="text" id="password" class="fadeIn third" name="password" placeholder="password">
                   <br>
                   <input type="submit" class="fadeIn fourth" value="Log In">
                 </form>
