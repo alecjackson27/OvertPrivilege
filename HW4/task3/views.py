@@ -28,7 +28,7 @@ def create(request):
                 # Password is a variation of dictionary_word. Return to signup and inform user
                 print("Placeholder")
 
-        birth_date = request.POST['birth date'][6:8] + "/" + request.POST['birth date'][8:] \
+        birthDate = request.POST['birth date'][6:8] + "/" + request.POST['birth date'][8:] \
             + "/" + request.POST['birth date'][:5]
 
         phone = re.sub("[^0-9]", "", request.POST['phone'])
@@ -39,7 +39,7 @@ def create(request):
             phone = phone[:4] + "-" + phone[4:7] + "-" + phone[7:]
 
         ECLP2 = task2(request.POST['first'], request.POST['last'], request.POST['email'],
-        phone, birth_date, request.POST['street'], request.POST['apt'], request.POST['city'],
+        phone, birthDate, request.POST['street'], request.POST['apt'], request.POST['city'],
         request.POST['state'], request.POST['zip'])
 
         for i in range(len(ECLP2) - 2):
@@ -52,7 +52,22 @@ def create(request):
                 # and inform user
                 print("Placeholder")
 
-        
+        new_user = User(
+            first_name=request.POST['first'],
+            last_name=request.POST['last'],
+            email=request.POST['email'],
+            birth_date=birthDate,
+            street=request.POST['street'],
+            apt=request.POST['apt'],
+            city=request.POST['city'],
+            state=request.POST['state'],
+            zip=request.POST['zip'],
+            phone_number=phone
+        )
+
+        new_user.save()
+
+        calculate_hash(request.POST['password'], new_user.salt, new_user.id)
 
         
         # If data checks out, create a new user with form data and save it in the database, then
