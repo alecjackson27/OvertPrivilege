@@ -1,4 +1,4 @@
-from .task2utils import *
+from task2utils import *
 
 
 def task2(firstname, lastname, email, phone, birth, address, apt, city, state, zipcode):

@@ -53,9 +53,10 @@ def create_list_of_passwords(words):
     list = []
     queue = []
     for i in words:
-        queue.append([i, 0])
+        queue.append(i)
     while len(queue) > 0:
         word = queue.pop(0)
+        #print(word)
         list.append(word)
         #if word[1] > 3:
         #    break
@@ -72,5 +73,5 @@ def create_list_of_passwords(words):
                     list_flag = False
                     break
             if queue_flag and list_flag:
-                queue.append([edit, word[1] + 1])
+                queue.append([edit, word[1]])
     return list

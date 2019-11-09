@@ -1,4 +1,4 @@
-from .task2utils import *
+from task2utils import *
 
 
 def task2(firstname, lastname, email, phone, birth, address, apt, city, state, zipcode):
@@ -16,8 +16,14 @@ def task2(firstname, lastname, email, phone, birth, address, apt, city, state, z
 	address = address.split(' ')
 
 	numbers = [month,day,year,short_year,phone1,phone2,phone3,zipcode]
-	words = [firstname.lower(),lastname.lower(),city.lower(),state.lower()]
-	words.extend(email)
+	words = [
+		[firstname.lower(), "first"],
+		[lastname.lower(), "last"],
+		[city.lower(), "city"],
+		[state.lower(), "state"]
+	]
+	email.extend(["email"])
+	words.append(email)
 	temp = []
 	for item in address:
 		item = str(item)
@@ -26,7 +32,7 @@ def task2(firstname, lastname, email, phone, birth, address, apt, city, state, z
 		else:
 			temp.append(item.lower())
 	temp = ''.join(temp)
-	words.append(temp)
+	words.append([temp, "address"])
 
 	if apt != '':
 		numbers.append(apt)
@@ -48,10 +54,12 @@ if __name__ == "__main__":
 	zipcode = input('Zip Code: ')
 
 	passwords = task2(firstname, lastname, email, phone, birth, address, apt, city, state, zipcode)
-
+	#print(passwords)
+	
 	for i in range(len(passwords) - 2):
 		print(passwords[i][0])
 	print("Any password which contains the following numbers:", passwords[len(passwords) - 1], 
 	"(will be checked with Python's string.contains() method)")
+	
 
 
