@@ -54,7 +54,7 @@ def create(request):
                 # Password is a variation on ECLP2[i][1]. Return to signup and inform user
                 messages.warning(request, 
                 'Input password is vulnerable to targeted guessing attack because it used all or part of your '
-                + ECLP2[i][1] + "or a variant")
+                + ECLP2[i][1] + " or a variant")
                 return render(request, 'task3/signup.html')
         for i in range(len(ECLP2[len(ECLP2)-1])):
             if ECLP2[len(ECLP2)-1][i][0] in request.POST['password']:
