@@ -14,30 +14,30 @@
                 <!-- Signup Form -->
                 <form action="{% url 'create' %}" method="POST"> {% csrf_token %}
                   <p>Personal Information:</p>
-                  <input type="text" id="firstname" name="first name" placeholder="First Name">
-                  <input type="text" id="lastname" name="last name" placeholder="Last Name">
+                  <input type="text" id="firstname" name="first name" placeholder="First Name" required>
+                  <input type="text" id="lastname" name="last name" placeholder="Last Name" required>
                   <br><br>
-                  <input type="email" id="email" name="email" placeholder="Email">
+                  <input type="email" id="email" name="email" placeholder="Email" required>
                   <br><br>
-                  <input type="tel" id="phone" name="phone" placeholder="Phone (xxx-xxx-xxxx)">
+                  <input type="tel" id="phone" name="phone" placeholder="Phone (xxx-xxx-xxxx)" required>
                   <br>
                   <br>
                   <p>Mailing Address:</p>
-                  <input type="text" id="street" name="street" placeholder="Street Info">
+                  <input type="text" id="street" name="street" placeholder="Street Info" required>
                   <input type="text" size=3 id="apt" name="apt" placeholder="APT#">
                   <br>
-                  <input type="text" id="city" name="city" placeholder="City">
-                  <input type="text" id="state" name="state" placeholder="State">
+                  <input type="text" id="city" name="city" placeholder="City" required>
+                  <input type="text" id="state" name="state" placeholder="State" required>
                   <br>
-                  <input typ="text" id="class" name="zip" placeholder="Zip (first 4 digits)" maxlength="5">
+                  <input typ="text" id="class" name="zip" placeholder="Zip (first 4 digits)" maxlength="5" required>
                   <br><br>
                   <p>Birth Date:</p>
-                  <input type="date" id="birthdate" name="birth date">
+                  <input type="date" id="birthdate" name="birth date" required>
                   <br><br>
                   <p>Password:</p>
-                  <input type="text" id="password" name="password" placeholder="Password">
+                  <input type="text" id="password" name="password" placeholder="Password" required>
                   <br>
-                  <input type="text" id="password" name="confirm password" placeholder="Confirm Password">
+                  <input type="text" id="password" name="confirm password" placeholder="Confirm Password" required>
                   <br>
                   <input type="submit" value="Submit">
                 </form>
