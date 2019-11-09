@@ -27,8 +27,7 @@ def login(request):
             url = "../task3/"
             return HttpResponseRedirect(url, request)
         elif user[0].locked_out_until > timezone.now() - OFFSET:
-            messages.warning(request, "Too many failed login attempts. "
-            + (user[0].email + " is locked out until "
+            messages.warning(request, (user[0].email + " is locked out until "
             + user[0].locked_out_until.strftime("%m/%d/%Y, %H:%M:%S")))
             url = "../task3/"
             return HttpResponseRedirect(url, request)
