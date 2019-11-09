@@ -70,7 +70,7 @@ if __name__ == "__main__":
 	for i in range(len(passwords) - 2):
 		print(passwords[i][0])
 	print("Any password which contains the following numbers:", passwords[len(passwords) - 1], 
-	"(will be checked with Python's string.contains() method)")
+	"(will be checked with Python's 'in' keyword)")
 	
 
 
