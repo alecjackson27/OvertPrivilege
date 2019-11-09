@@ -1,6 +1,7 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.views import generic
+from django.contrib import messages
 import re
 from .models import User
 from .utils import *
@@ -26,7 +27,10 @@ def create(request):
                 dictionary_word = ECLP1[i + 1]
             elif ECLP1[i] == request.POST['password']:
                 # Password is a variation of dictionary_word. Return to signup and inform user
-                print("Placeholder")
+                messages.warning(request, 
+                'Input password is vulnerable to dictionary guessing attack because it used the dictionary word: '
+                + dictionary_word + " or a variation of this word")
+                return render(request, 'task3/signup.html')
 
         birthDate = request.POST['birth'][5:7] + "/" + request.POST['birth'][8:] \
             + "/" + request.POST['birth'][:4]
@@ -34,7 +38,9 @@ def create(request):
         phone = re.sub("[^0-9]", "", request.POST['phone'])
         if len(phone) != 10:
             # Number is the wrong length. Return to signup and inform user
-            print("Placeholder")
+            messages.warning(request, 
+            'Input phone number is invalid', )
+            return render(request, 'task3/signup.html')
         else:
             phone = phone[:4] + "-" + phone[4:7] + "-" + phone[7:]
 
@@ -43,14 +49,27 @@ def create(request):
         request.POST['state'], request.POST['zip'])
 
         for i in range(len(ECLP2) - 2):
+            print(ECLP2[i][0])
             if ECLP2[i][0] == request.POST['password']:
                 # Password is a variation on ECLP2[i][1]. Return to signup and inform user
-                print("Placeholder")
+                messages.warning(request, 
+                'Input password is vulnerable to targeted guessing attack because it used all or part of your '
+                + ECLP2[i][1] + "or a variant")
+                return render(request, 'task3/signup.html')
         for i in range(len(ECLP2[len(ECLP2)-1])):
             if ECLP2[len(ECLP2)-1][i][0] in request.POST['password']:
                 # Password contains the number from ECLP2[len(ECLP2)-1][i][1]. Return to signup
                 # and inform user
-                print("Placeholder")
+                messages.warning(request, 
+                'Input password is vulnerable to targeted guessing attack because it used all or part of a number from your '
+                + ECLP2[len(ECLP2)-1][i][1])
+                return render(request, 'task3/signup.html')
+
+        if len(User.objects.filter(email=request.POST['email'])) > 0:
+            # Email is taken. return to signup and inform user.
+            messages.warning(request, 
+            'Email already taken')
+            return render(request, 'task3/signup.html')
 
         new_user = User(
             first_name=request.POST['first'],
