@@ -43,10 +43,11 @@ dispatcher = {
     0: replace_e_3,
     1: replace_i_exclamation,
     2: replace_a_atSymbol,
-    3: replace_s,
-    4: cap,
-    5: swap_case,
-    6: to_upper
+    3: replace_s_5,
+    4: replace_s_dollarSign,
+    5: cap,
+    6: swap_case,
+    7: to_upper
 }
 
 def create_list_of_passwords(words):
@@ -60,7 +61,7 @@ def create_list_of_passwords(words):
         list.append(word)
         #if word[1] > 3:
         #    break
-        for i in range(1, 7):
+        for i in range(8):
             queue_flag = True
             list_flag = True
             edit = dispatcher[i](word[0])
