@@ -48,43 +48,7 @@ dispatcher = {
     5: swap_case,
     6: to_upper
 }
-"""
-def create_list_of_passwords(words,numbers):
-    random.seed(a=None,version=2)
-    list = []
 
-    for i in range(30):
-        num = numbers[random.randint(0,(len(numbers)-1))]
-        wor = words[random.randint(0,(len(words)-1))]
-        order = random.randint(0,5)
-        extra = random.randint(0,10)
-
-        if extra in {1,2,3}:
-            wor = wor.capitalize()
-        if extra == 5:
-            wor = wor.capitalize()
-            wor = wor.swapcase()
-        if extra == 6:
-            wor = wor.upper()
-
-        word = ''
-        if order != 0:
-            word = wor+num
-        else:
-            word = num+wor
-
-        list.append(word)
-
-        replacement = word
-        for i in range(4):
-            replacement = dispatcher[i](replacement)
-
-        if word != replacement:
-            list.append(replacement)
-
-    random.shuffle(list)
-    return list
-"""
 def create_list_of_passwords(words):
     list = []
     queue = []
