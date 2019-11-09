@@ -18,7 +18,7 @@ def create(request):
     if request.method == 'POST':
         print(request.POST)
         # Use form data (contained in request.POST) to validate info using methods from tasks 1 and 2
-        with open('../task1/createdPasswords.txt', 'r') as f:
+        with open('task1/createdPasswords.txt', 'r') as f:
             ECLP1 = f.read().split()
         dictionary_word = ""
         for i in range(len(ECLP1)):
@@ -28,8 +28,8 @@ def create(request):
                 # Password is a variation of dictionary_word. Return to signup and inform user
                 print("Placeholder")
 
-        birthDate = request.POST['birth date'][6:8] + "/" + request.POST['birth date'][8:] \
-            + "/" + request.POST['birth date'][:5]
+        birthDate = request.POST['birth'][5:7] + "/" + request.POST['birth'][8:] \
+            + "/" + request.POST['birth'][:4]
 
         phone = re.sub("[^0-9]", "", request.POST['phone'])
         if len(phone) != 10:
@@ -47,7 +47,7 @@ def create(request):
                 # Password is a variation on ECLP2[i][1]. Return to signup and inform user
                 print("Placeholder")
         for i in range(len(ECLP2[len(ECLP2)-1])):
-            if request.POST['password'].contains(ECLP2[len(ECLP2)-1][i][0]):
+            if ECLP2[len(ECLP2)-1][i][0] in request.POST['password']:
                 # Password contains the number from ECLP2[len(ECLP2)-1][i][1]. Return to signup
                 # and inform user
                 print("Placeholder")
@@ -72,7 +72,8 @@ def create(request):
         
         # If data checks out, create a new user with form data and save it in the database, then
         # save hashed password and salt to respective files. Then redirect to a new URL:
-        return HttpResponseRedirect('/thanks/')
+        url = "../" + str(new_user.id) + "/"
+        return HttpResponseRedirect(url)
 
         # Else take user back to form and give an error message
 

@@ -18,7 +18,7 @@ def calculate_hash(password, salt, userID):
     shaw1 = hashlib.sha1()
     shaw1.update(passSalt.encode('utf-8'))
     theHash = shaw1.hexdigest()
-    combo = userID + " " + theHash
+    combo = str(userID) + " " + theHash
     theFile = open("passwords.txt","a") #not sure if it gets to the file or not
     theFile.write(combo + "\n")
     theFile.close()
