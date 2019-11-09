@@ -10,7 +10,7 @@ from .utils import *
 from .task2 import task2
 
 # Create your views here.
-OFFSET = timedelta(hours=6)
+OFFSET = timedelta(hours=7)
 
 def index(request):
     return render(request, 'task3/index.html')
