@@ -30,7 +30,9 @@ def task2(firstname, lastname, email, phone, birth, address, apt, city, state, z
 
 	if apt != '':
 		numbers.append(apt)
-	return [create_list_of_passwords(words), numbers]
+	passwords = create_list_of_passwords(words)
+	passwords.append(numbers)
+	return passwords
 
 
 if __name__ == "__main__":

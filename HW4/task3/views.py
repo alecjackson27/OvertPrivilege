@@ -48,7 +48,7 @@ def create(request):
         phone, birthDate, request.POST['street'], request.POST['apt'], request.POST['city'],
         request.POST['state'], request.POST['zip'])
 
-        for i in range(len(ECLP2) - 2):
+        for i in range(len(ECLP2) - 1):
             print(ECLP2[i][0])
             if ECLP2[i][0] == request.POST['password']:
                 # Password is a variation on ECLP2[i][1]. Return to signup and inform user
