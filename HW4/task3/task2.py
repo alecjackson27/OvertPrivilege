@@ -1,4 +1,4 @@
-from task2utils import *
+from .task2utils import *
 
 
 def task2(firstname, lastname, email, phone, birth, address, apt, city, state, zipcode):
@@ -15,10 +15,19 @@ def task2(firstname, lastname, email, phone, birth, address, apt, city, state, z
 	short_year = str(year[2]) + str(year[3])
 	address = address.split(' ')
 
-	numbers = [month,day,year,short_year,phone1,phone2,phone3,zipcode]
+	numbers = [
+		[month, "birth month"],
+		[day, "birth day"],
+		[year, "birth year"],
+		[short_year, "birth year"],
+		[phone1, "phone"],
+		[phone2, "phone"],
+		[phone3, "phone"],
+		[zipcode, "zip code"]
+	]
 	words = [
-		[firstname.lower(), "first"],
-		[lastname.lower(), "last"],
+		[firstname.lower(), "first name"],
+		[lastname.lower(), "last name"],
 		[city.lower(), "city"],
 		[state.lower(), "state"]
 	]
@@ -28,14 +37,14 @@ def task2(firstname, lastname, email, phone, birth, address, apt, city, state, z
 	for item in address:
 		item = str(item)
 		if item.isdigit():
-			numbers.append(item)
+			numbers.append([item, "address"])
 		else:
 			temp.append(item.lower())
 	temp = ''.join(temp)
 	words.append([temp, "address"])
 
 	if apt != '':
-		numbers.append(apt)
+		numbers.append([apt, "apt #"])
 	return [create_list_of_passwords(words), numbers]
 
 

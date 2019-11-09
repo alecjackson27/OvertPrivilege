@@ -23,6 +23,7 @@ def calculate_hash(password, salt, userID):
     theFile.write(combo + "\n")
     theFile.close()
 
+
 #
 # TO DO: Write function which takes as parameters a password, salt, and user ID number. The function
 # will the calculate the hash of (password + salt) and write the space separated user ID/hash pair

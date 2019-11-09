@@ -41,7 +41,19 @@ def create(request):
         ECLP2 = task2(request.POST['first'], request.POST['last'], request.POST['email'],
         phone, birth_date, request.POST['street'], request.POST['apt'], request.POST['city'],
         request.POST['state'], request.POST['zip'])
+
+        for i in range(len(ECLP2) - 2):
+            if ECLP2[i][0] == request.POST['password']:
+                # Password is a variation on ECLP2[i][1]. Return to signup and inform user
+                print("Placeholder")
+        for i in range(len(ECLP2[len(ECLP2)-1])):
+            if request.POST['password'].contains(ECLP2[len(ECLP2)-1][i][0]):
+                # Password contains the number from ECLP2[len(ECLP2)-1][i][1]. Return to signup
+                # and inform user
+                print("Placeholder")
+
         
+
         
         # If data checks out, create a new user with form data and save it in the database, then
         # save hashed password and salt to respective files. Then redirect to a new URL:
