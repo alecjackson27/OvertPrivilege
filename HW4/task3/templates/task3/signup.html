@@ -37,7 +37,17 @@
                   <p>Password:</p>
                   <input type="text" id="password" name="password" placeholder="Password" required>
                   <br>
-                  <input type="text" id="password" name="confirm password" placeholder="Confirm Password" required>
+                  <input type="text" id="password" name="confirm password" placeholder="Confirm Password" required oninput="check(this)"">
+                  <script language='javascript' type='text/javascript'>
+                    function check(input) {
+                        if (input.value != document.getElementById('password').value) {
+                            input.setCustomValidity('Password Must be Matching.');
+                        } else {
+                            // input is valid -- reset the error message
+                            input.setCustomValidity('');
+                        }
+                    }
+                </script>
                   <br>
                   <input type="submit" value="Submit">
                 </form>

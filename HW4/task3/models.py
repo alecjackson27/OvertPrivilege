@@ -13,7 +13,7 @@ class User(models.Model):
     apt = models.CharField(max_length=2)
     city = models.CharField(max_length=50)
     state = models.CharField(max_length=15)
-    zip = models.PositiveIntegerField()
+    zip = models.CharField(max_length=5)
     salt = models.CharField(max_length=16, default=generate_salt)
     failed_logins = models.IntegerField(default=0)
     locked_out_until = models.DateTimeField(default=timezone.now)

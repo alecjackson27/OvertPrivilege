@@ -4,7 +4,7 @@ from django.views import generic
 import re
 from .models import User
 from .utils import *
-from task2 import task2
+from .task2 import task2
 
 # Create your views here.
 def index(request):
