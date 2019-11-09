@@ -74,6 +74,10 @@ def signup(request):
 def create(request):
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
+        if len(request.POST['password']) < 8:
+            messages.warning(request,
+            'Password must be at least 8 characters long', )
+            return HttpResponseRedirect("../signup", request)
         # print(request.POST)
         # Use form data (contained in request.POST) to validate info using methods from tasks 1 and 2
         with open('task1/createdPasswords.txt', 'r') as f:
