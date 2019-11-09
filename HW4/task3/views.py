@@ -11,6 +11,10 @@ from .task2 import task2
 def index(request):
     return render(request, 'task3/index.html')
 
+def login(request):
+    # TO DO: login
+    print("placeholder")
+
 def signup(request):
     return render(request, 'task3/signup.html')
 
@@ -88,6 +92,10 @@ def create(request):
 
         calculate_hash(request.POST['password'], new_user.salt, new_user.id)
 
+        sessionID = get_password_byID(new_user.id)
+        
+        request.session.__setitem__("authentication", sessionID)
+
         
         # If data checks out, create a new user with form data and save it in the database, then
         # save hashed password and salt to respective files. Then redirect to a new URL:
@@ -99,3 +107,10 @@ def create(request):
 class UserDetailView(generic.DetailView):
     model = User
     template_name = 'task3/user_detail.html'
+
+    def get(self, request, *args, **kwargs):
+        user = User.filter(id=self.kwargs['pk'])
+        if request.session.__getitem__('authentication') == get_password_byID(user.id):
+            return render(request, self.template_name)
+        else:
+            return render(request, 'task3/index.html')

@@ -23,6 +23,21 @@ def calculate_hash(password, salt, userID):
     theFile.write(combo + "\n")
     theFile.close()
 
+def get_password_byID(id):
+    file = open("passwords.txt", 'r')
+    passwords = file.read()
+    lines = passwords.split('\n')
+    for line in lines:
+        print(line)
+        user, hash = line.split()
+        print(user)
+        print(id)
+        if int(user) == id:
+            return hash
+    return -1
+
+#print(get_password_byID(input()))
+
 
 #
 # TO DO: Write function which takes as parameters a password, salt, and user ID number. The function
