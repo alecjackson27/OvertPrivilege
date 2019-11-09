@@ -14,6 +14,7 @@ def index(request):
 def login(request):
     # TO DO: login
     if request.method == "GET":
+        # print(request.GET)
         user = User.objects.filter(email=request.GET['login'])
         if len(user) == 0:
             # No such user, return to login and tell user
@@ -24,7 +25,7 @@ def login(request):
             request.session.save()
             user[0].failed_logins = 0
             user[0].save()
-            url = "../" + str(user[0].id) + "/"
+            url = "../task3/" + str(user[0].id) + "/"
             return HttpResponseRedirect(url, request)
         else:
             # Invalid login credentials, return to login and tell user. Increment failed logins
