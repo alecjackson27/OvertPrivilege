@@ -35,7 +35,7 @@ def login(request):
 def logout(request):
     request.session.flush()
     request.session.save()
-    return HttpResponseRedirect("..", request)
+    return HttpResponseRedirect("../task3", request)
 
 
 def signup(request):
@@ -136,7 +136,7 @@ class UserDetailView(generic.DetailView):
     def get(self, request, *args, **kwargs):
         user = User.objects.filter(id=self.kwargs['pk'])
         if request.session.__contains__('authentication') \
-            and request.session.__contains__('authentication_email'):
+            and request.session.__contains__('authenticate_email'):
             if request.session.__getitem__('authentication') == get_password_byID(user[0].id) \
                 and request.session.__getitem__('authenticate_email') == user[0].email:
                 self.object = user[0]
