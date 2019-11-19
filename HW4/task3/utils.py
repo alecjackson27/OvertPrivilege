@@ -2,6 +2,7 @@
 # password and salt to their respective files
 
 import random
+import hashlib
 
 def generate_salt():
     ALPHABET = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -10,6 +11,43 @@ def generate_salt():
         salt += random.choice(ALPHABET)
     return salt
 
+# concatonate the salt to the password
+def calculate_hash(password, salt, userID):
+    passSalt = password + str(salt)
+
+    shaw1 = hashlib.sha1()
+    shaw1.update(passSalt.encode('utf-8'))
+    theHash = shaw1.hexdigest()
+    combo = str(userID) + " " + theHash
+    theFile = open("passwords.txt","a") #not sure if it gets to the file or not
+    theFile.write(combo + "\n")
+    theFile.close()
+
+def calculate_hash2(password, salt):
+    passSalt = password + str(salt)
+
+    shaw1 = hashlib.sha1()
+    shaw1.update(passSalt.encode('utf-8'))
+    theHash = shaw1.hexdigest()
+    return theHash
+
+def get_password_byID(id):
+    file = open("passwords.txt", 'r')
+    passwords = file.read()
+    lines = passwords.split('\n')
+    for line in lines:
+        print(line)
+        user, hash = line.split()
+        print(user)
+        print(id)
+        if int(user) == id:
+            return hash
+    return -1
+
+#print(get_password_byID(input()))
+
+
+#
 # TO DO: Write function which takes as parameters a password, salt, and user ID number. The function
 # will the calculate the hash of (password + salt) and write the space separated user ID/hash pair
 # to the password.txt file with the format: userId hash. Each row of password.txt should be

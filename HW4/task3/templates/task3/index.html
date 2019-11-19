@@ -11,12 +11,19 @@
               <h1 class="mt-2">Login</h1>
               <hr class="mt-0 mb-4">
               <div id="formContent">
+                  {% if messages %}
+                  <div class="messages">
+                      {% for message in messages %}
+                      <p style="color:red"{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+                      {% endfor %}
+                  </div>
+                  {% endif %}
                 <!-- Tabs Titles -->
                 <!-- Login Form -->
-                <form>
+                <form action="{% url 'login' %}" method="GET">
                   <input type="email" id="login" class="fadeIn second" name="login" placeholder="email">
                   <br>
-                  <input type="text" id="password" class="fadeIn third" name="login" placeholder="password">
+                  <input type="password" id="password" class="fadeIn third" name="password" placeholder="password">
                   <br>
                   <input type="submit" class="fadeIn fourth" value="Log In">
                 </form>
