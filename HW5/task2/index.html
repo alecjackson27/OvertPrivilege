@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Malicious SQL?</title>
+        <script src="script.js"></script>
+    </head>
+    <body>
+        <p>Enter SQL in box below for scanning: </p>
+        <textarea id="SQLBox" style="display: block;" rows="18" cols="100"></textarea>
+        <br>
+        <button style="display: block;" onclick="scanBox()">Scan!</button>
+        <!--Will scan for tautologies, illegal/logically incorrect queries, union queries, piggy-backed queries, inference, and alternate encodings-->
+        <!--will give a likelihood for chance code is malicious and explanation(s) why-->
+        <div id="results">
+            <!--This is where we'll put the results-->
+        </div>
+        </body>
+</html>
