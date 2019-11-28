@@ -17,11 +17,15 @@ df.drop_duplicates(inplace = True)
 #Convert string to integer counts, learn the vocabulary dictionary and return term-document matrix
 messages_bow = CountVectorizer(analyzer=process_text).fit_transform(df['text'])
 
-print(df)
+print(messages_bow)
 print(df['spam'])
 
-"""
-#Split the data into 80% training (X_train & y_train) and 20% testing (X_test & y_test) data sets
-X_train, X_test, y_train, y_test = train_test_split(messages_bow, df['spam'], test_size = 0.20, random_state = 0)
-train_test_split()
-"""
+model_num = 1
+
+for model in (MultinomialNB(), LinearSVC(max_iter=10_000), SGDClassifier()):
+    model = MultinomialNB()
+    model.fit(messages_bow, df['spam'])
+
+    model_path = "classifier-" + model_num
+    with open(model_path, 'wb') as f:
+        pickle.dump(model, f)

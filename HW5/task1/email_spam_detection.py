@@ -17,14 +17,8 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report,confusion_matrix, accuracy_score
 from sklearn.naive_bayes import MultinomialNB
-from sklearn.linear_model import SGDClassifier
+from sklearn.linear_model import SGDClassifier, LogisticRegression
 from sklearn.svm import LinearSVC
-
-df = pd.read_csv('emails.csv')
-
-
-#Check for and remove duplicates
-df.drop_duplicates(inplace = True)
 
 
 #Tokenization (a list of tokens), will be used as the analyzer
@@ -48,115 +42,121 @@ def process_text(text):
     #3
     return clean_words
 
-
-#Convert string to integer counts, learn the vocabulary dictionary and return term-document matrix
-messages_bow = CountVectorizer(analyzer=process_text).fit_transform(df['text'])
-
-
-#Split the data into 80% training (X_train & y_train) and 20% testing (X_test & y_test) data sets
-X_train, X_test, y_train, y_test = train_test_split(messages_bow, df['spam'], test_size = 0.20, random_state = 0)
+if __name__ == "__main__":
+    df = pd.read_csv('emails.csv')
 
 
-#Create and train the Naive Bayes classifier
-classifier = MultinomialNB()
-classifier.fit(X_train, y_train)
+    #Check for and remove duplicates
+    df.drop_duplicates(inplace = True)
 
-print("NB")
-print()
-
-#Print the predictions
-print(classifier.predict(X_train))
-
-#Print the actual values
-print(y_train.values)
-
-#Evaluate the model on the training data set
-pred = classifier.predict(X_train)
-print(classification_report(y_train ,pred ))
-print('Confusion Matrix: \n',confusion_matrix(y_train,pred))
-print()
-print('Accuracy: ', accuracy_score(y_train,pred))
-
-#Print the predictions
-print('Predicted value: ',classifier.predict(X_test))
-
-#Print Actual Label
-print('Actual value: ',y_test.values)
-
-#Evaluate the model on the test data set
-pred = classifier.predict(X_test)
-print(classification_report(y_test ,pred ))
-
-print('Confusion Matrix: \n', confusion_matrix(y_test,pred))
-print()
-print('Accuracy: ', accuracy_score(y_test,pred))
+    #Convert string to integer counts, learn the vocabulary dictionary and return term-document matrix
+    messages_bow = CountVectorizer(analyzer=process_text).fit_transform(df['text'])
 
 
-#Create and train the LinearSVC classifier
-classifier = LinearSVC()
-classifier.fit(X_train, y_train)
-
-print("SVC")
-print()
-
-#Print the predictions
-print(classifier.predict(X_train))
-
-#Print the actual values
-print(y_train.values)
-
-#Evaluate the model on the training data set
-pred = classifier.predict(X_train)
-print(classification_report(y_train ,pred ))
-print('Confusion Matrix: \n',confusion_matrix(y_train,pred))
-print()
-print('Accuracy: ', accuracy_score(y_train,pred))
-
-#Print the predictions
-print('Predicted value: ',classifier.predict(X_test))
-
-#Print Actual Label
-print('Actual value: ',y_test.values)
-
-#Evaluate the model on the test data set
-pred = classifier.predict(X_test)
-print(classification_report(y_test ,pred ))
-
-print('Confusion Matrix: \n', confusion_matrix(y_test,pred))
-print()
-print('Accuracy: ', accuracy_score(y_test,pred))
+    #Split the data into 80% training (X_train & y_train) and 20% testing (X_test & y_test) data sets
+    X_train, X_test, y_train, y_test = train_test_split(messages_bow, df['spam'], test_size = 0.20, random_state = 0)
 
 
-#Create and train the SGDClassifier
-classifier = SGDClassifier()
-classifier.fit(X_train, y_train)
+    #Create and train the Naive Bayes classifier
+    classifier = MultinomialNB()
+    classifier.fit(X_train, y_train)
 
-print("SGD")
-print()
+    print("NB")
+    print()
 
-#Print the predictions
-print(classifier.predict(X_train))
+    #Print the predictions
+    print(classifier.predict(X_train))
 
-#Print the actual values
-print(y_train.values)
+    #Print the actual values
+    print(y_train.values)
 
-#Evaluate the model on the training data set
-pred = classifier.predict(X_train)
-print(classification_report(y_train ,pred ))
-print('Confusion Matrix: \n',confusion_matrix(y_train,pred))
-print()
-print('Accuracy: ', accuracy_score(y_train,pred))
+    #Evaluate the model on the training data set
+    pred = classifier.predict(X_train)
+    print(classification_report(y_train ,pred ))
+    print('Confusion Matrix: \n',confusion_matrix(y_train,pred))
+    print()
+    print('Accuracy: ', accuracy_score(y_train,pred))
 
-#Print the predictions
-print('Predicted value: ',classifier.predict(X_test))
+    #Print the predictions
+    print('Predicted value: ',classifier.predict(X_test))
 
-#Print Actual Label
-print('Actual value: ',y_test.values)
+    #Print Actual Label
+    print('Actual value: ',y_test.values)
 
-#Evaluate the model on the test data set
-pred = classifier.predict(X_test)
-print(classification_report(y_test ,pred ))
+    #Evaluate the model on the test data set
+    pred = classifier.predict(X_test)
+    print(classification_report(y_test ,pred ))
 
-print('Confusion Matrix: \n', confusion_matrix(y_test,pred))
-print()
-print('Accuracy: ', accuracy_score(y_test,pred))
+    print('Confusion Matrix: \n', confusion_matrix(y_test,pred))
+    print()
+    print('Accuracy: ', accuracy_score(y_test,pred))
+
+
+    #Create and train the LinearSVC classifier
+    classifier = LinearSVC(max_iter=10_000)
+    classifier.fit(X_train, y_train)
+
+    print("SVC")
+    print()
+
+    #Print the predictions
+    print(classifier.predict(X_train))
+
+    #Print the actual values
+    print(y_train.values)
+
+    #Evaluate the model on the training data set
+    pred = classifier.predict(X_train)
+    print(classification_report(y_train ,pred ))
+    print('Confusion Matrix: \n',confusion_matrix(y_train,pred))
+    print()
+    print('Accuracy: ', accuracy_score(y_train,pred))
+
+    #Print the predictions
+    print('Predicted value: ',classifier.predict(X_test))
+
+    #Print Actual Label
+    print('Actual value: ',y_test.values)
+
+    #Evaluate the model on the test data set
+    pred = classifier.predict(X_test)
+    print(classification_report(y_test ,pred ))
+
+    print('Confusion Matrix: \n', confusion_matrix(y_test,pred))
+    print()
+    print('Accuracy: ', accuracy_score(y_test,pred))
+
+
+    #Create and train the SGDClassifier
+    classifier = SGDClassifier()
+    classifier.fit(X_train, y_train)
+
+    print("SGD")
+    print()
+
+    #Print the predictions
+    print(classifier.predict(X_train))
+
+    #Print the actual values
+    print(y_train.values)
+
+    #Evaluate the model on the training data set
+    pred = classifier.predict(X_train)
+    print(classification_report(y_train ,pred ))
+    print('Confusion Matrix: \n',confusion_matrix(y_train,pred))
+    print()
+    print('Accuracy: ', accuracy_score(y_train,pred))
+
+    #Print the predictions
+    print('Predicted value: ',classifier.predict(X_test))
+
+    #Print Actual Label
+    print('Actual value: ',y_test.values)
+
+    #Evaluate the model on the test data set
+    pred = classifier.predict(X_test)
+    print(classification_report(y_test ,pred ))
+
+    print('Confusion Matrix: \n', confusion_matrix(y_test,pred))
+    print()
+    print('Accuracy: ', accuracy_score(y_test,pred))
