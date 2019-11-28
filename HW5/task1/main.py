@@ -79,7 +79,7 @@ class EncryptWindow(QMainWindow):
         self.cipherbox.resize(290, 130)
 
         # The button to generate the keys
-        self.generateButton = QPushButton('Score', self)
+        self.generateButton = QPushButton('Score:', self)
         self.generateButton.move(150, 165)
         self.generateButton.clicked.connect(self.generateClick)
 
@@ -92,12 +92,19 @@ class EncryptWindow(QMainWindow):
         fileMenu = menubar.addMenu('&Help')
         fileMenu.addAction(helpAct)
 
+        # The text box for the user's desired file
+        self.textbox = QLineEdit(self)
+        self.textbox.move(100, 20)
+        self.textbox.resize(100, 30)
+        self.textbox.setReadOnly(True)
+
         self.show()
     
     # Overwriting the resizeEvent() function so that the proportions of the GUI
     # remain intact
     def resizeEvent(self, event):
         self.generateButton.move(self.width() / 3 - 50, self.height() - 75)
+        self.textbox.move(2 * self.width() / 3 - 50, self.height() - 75)
         self.cipherbox.resize(self.width() - 100, self.height() - 110)
         QMainWindow.resizeEvent(self, event)
 
