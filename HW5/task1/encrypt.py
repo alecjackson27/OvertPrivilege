@@ -6,7 +6,6 @@ from PyQt5.QtWidgets import *#QMainWindow, QLabel, QGridLayout, QWidget, QPushBu
 from PyQt5.QtGui import QIcon, QGuiApplication
 from PyQt5.QtCore import QSize
 from PyQt5.QtCore import pyqtSlot
-from RSAutils import encryption
 
 class EncryptWindow(QMainWindow):
 

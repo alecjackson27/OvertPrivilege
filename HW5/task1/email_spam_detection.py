@@ -13,7 +13,7 @@ import pandas as pd
 import nltk
 from nltk.corpus import stopwords
 import string
-from sklearn.feature_extraction.text import TfidfTransformer, CountVectorizer
+from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report,confusion_matrix, accuracy_score
 from sklearn.naive_bayes import MultinomialNB
@@ -84,7 +84,6 @@ print('Predicted value: ',classifier.predict(X_test))
 print('Actual value: ',y_test.values)
 
 #Evaluate the model on the test data set
-from sklearn.metrics import classification_report,confusion_matrix, accuracy_score
 pred = classifier.predict(X_test)
 print(classification_report(y_test ,pred ))
 
@@ -120,7 +119,6 @@ print('Predicted value: ',classifier.predict(X_test))
 print('Actual value: ',y_test.values)
 
 #Evaluate the model on the test data set
-from sklearn.metrics import classification_report,confusion_matrix, accuracy_score
 pred = classifier.predict(X_test)
 print(classification_report(y_test ,pred ))
 
@@ -156,7 +154,6 @@ print('Predicted value: ',classifier.predict(X_test))
 print('Actual value: ',y_test.values)
 
 #Evaluate the model on the test data set
-from sklearn.metrics import classification_report,confusion_matrix, accuracy_score
 pred = classifier.predict(X_test)
 print(classification_report(y_test ,pred ))
 
