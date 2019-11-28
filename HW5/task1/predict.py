@@ -29,7 +29,7 @@ def suspicious_url(text):
     urls = find_url(text)
     for word in ('update', 'login', 'verify'):
         for url in urls:
-            if word in url:
+            if word in url.lower():
                 return [1, -1]
     for url in urls:
         if url[0:12] == 'https://www.' or url[0:12] == 'http://www3.':

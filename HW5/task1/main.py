@@ -55,7 +55,7 @@ class EncryptWindow(QMainWindow):
                 else:
                     message += " The email also contains a suspicious url"
                 if suspicious_score[1] < 0:
-                    message += " which contains a word such as update, login, or verify."
+                    message += " which contains a word such as 'update', 'login', or 'verify'."
                 else:
                     message += " which starts with a number."
             id_score = self.suspicious_email(self.addressbox.text())
