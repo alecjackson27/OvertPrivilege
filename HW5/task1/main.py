@@ -18,7 +18,7 @@ class EncryptWindow(QMainWindow):
             self,
             "Help",
             """This program ranks the probability of an email\
-            being a phishing attempt, from 0 to 3, with 3\
+            being a phishing attempt, from 0 to 4, with 4\
             meaning the highest likelihood of phishing.""".replace("            ", ' ')
             )
 
@@ -27,8 +27,8 @@ class EncryptWindow(QMainWindow):
         if self.emailbox.toPlainText() != "":
             classifier_score = score_text([self.emailbox.toPlainText()])
             suspicious_score = suspicious_url(self.emailbox.toPlainText())
-            if suspicious_score[0]:
-                print("yup")
+            #if suspicious_score[0]:
+            #    print("yup")
             score = classifier_score + suspicious_score[0]
             self.textbox.setText(str(score))
 
