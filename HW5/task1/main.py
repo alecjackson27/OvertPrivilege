@@ -8,7 +8,7 @@ from PyQt5.QtCore import QSize
 from PyQt5.QtCore import pyqtSlot
 
 from predict import score_text
-from operationalize import identity
+from operationalize import process_text, identity
 
 class EncryptWindow(QMainWindow):
 
@@ -32,7 +32,7 @@ class EncryptWindow(QMainWindow):
     def generateClick(self):
         # Call function to generate key. For now, just prints "Generate" to console
         if self.cipherbox.toPlainText() != "":
-            self.textbox.setText(score_text(self.cipherbox.toPlainText()))
+            self.textbox.setText(str(score_text([self.cipherbox.toPlainText()])))
 
 
     def __init__(self):
