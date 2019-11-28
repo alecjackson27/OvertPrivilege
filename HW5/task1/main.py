@@ -7,7 +7,7 @@ from PyQt5.QtGui import QIcon, QGuiApplication
 from PyQt5.QtCore import QSize
 from PyQt5.QtCore import pyqtSlot
 
-from predict import score_text
+from predict import score_text, suspicious_url
 from operationalize import process_text, identity
 
 class EncryptWindow(QMainWindow):
@@ -25,7 +25,12 @@ class EncryptWindow(QMainWindow):
     def generateClick(self):
         # Call function to generate score.
         if self.emailbox.toPlainText() != "":
-            self.textbox.setText(str(score_text([self.emailbox.toPlainText()])))
+            classifier_score = score_text([self.emailbox.toPlainText()])
+            suspicious_score = suspicious_url(self.emailbox.toPlainText())
+            if suspicious_score[0]:
+                print("yup")
+            score = classifier_score + suspicious_score[0]
+            self.textbox.setText(str(score))
 
 
     def __init__(self):
