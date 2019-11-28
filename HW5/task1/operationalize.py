@@ -5,10 +5,32 @@ import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
+import string
+from nltk.corpus import stopwords
 
 import pickle
 
-from email_spam_detection import process_text
+
+#Tokenization (a list of tokens), will be used as the analyzer
+#1.Punctuations are [!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]
+#2.Stop words in natural language processing, are useless words (data).
+def process_text(text):
+    '''
+    What will be covered:
+    1. Remove punctuation
+    2. Remove stopwords
+    3. Return list of clean text words
+    '''
+    
+    #1
+    nopunc = [char for char in text if char not in string.punctuation]
+    nopunc = ''.join(nopunc)
+    
+    #2
+    clean_words = [word for word in nopunc.split() if word.lower() not in stopwords.words('english')]
+    
+    #3
+    return clean_words
 
 def identity(words):
     return words

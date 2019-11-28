@@ -3,11 +3,7 @@ import sys
 import pickle
 from os import listdir
 from sklearn.feature_extraction.text import CountVectorizer
-from email_spam_detection import process_text
-
-
-def identity(words):
-    return words
+from test import process_text, identity
 
 
 if __name__ == '__main__':

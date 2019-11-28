@@ -11,36 +11,15 @@ emails.csv data set from: https://www.kaggle.com/balakishan77/spam-or-ham-email-
 import numpy as np 
 import pandas as pd 
 import nltk
-from nltk.corpus import stopwords
-import string
+
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report,confusion_matrix, accuracy_score
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.linear_model import SGDClassifier, LogisticRegression
 from sklearn.svm import LinearSVC
+from operationalize import create_pipeline, identity, process_text
 
-
-#Tokenization (a list of tokens), will be used as the analyzer
-#1.Punctuations are [!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]
-#2.Stop words in natural language processing, are useless words (data).
-def process_text(text):
-    '''
-    What will be covered:
-    1. Remove punctuation
-    2. Remove stopwords
-    3. Return list of clean text words
-    '''
-    
-    #1
-    nopunc = [char for char in text if char not in string.punctuation]
-    nopunc = ''.join(nopunc)
-    
-    #2
-    clean_words = [word for word in nopunc.split() if word.lower() not in stopwords.words('english')]
-    
-    #3
-    return clean_words
 
 if __name__ == "__main__":
     df = pd.read_csv('emails.csv')
@@ -49,26 +28,17 @@ if __name__ == "__main__":
     #Check for and remove duplicates
     df.drop_duplicates(inplace = True)
 
-    #Convert string to integer counts, learn the vocabulary dictionary and return term-document matrix
-    messages_bow = CountVectorizer(analyzer=process_text).fit_transform(df['text'])
-
 
     #Split the data into 80% training (X_train & y_train) and 20% testing (X_test & y_test) data sets
-    X_train, X_test, y_train, y_test = train_test_split(messages_bow, df['spam'], test_size = 0.20, random_state = 0)
+    X_train, X_test, y_train, y_test = train_test_split(df['text'], df['spam'], test_size = 0.20, random_state = 0)
 
 
     #Create and train the Naive Bayes classifier
-    classifier = MultinomialNB()
+    classifier = create_pipeline(MultinomialNB())
     classifier.fit(X_train, y_train)
 
     print("NB")
     print()
-
-    #Print the predictions
-    print(classifier.predict(X_train))
-
-    #Print the actual values
-    print(y_train.values)
 
     #Evaluate the model on the training data set
     pred = classifier.predict(X_train)
@@ -76,12 +46,6 @@ if __name__ == "__main__":
     print('Confusion Matrix: \n',confusion_matrix(y_train,pred))
     print()
     print('Accuracy: ', accuracy_score(y_train,pred))
-
-    #Print the predictions
-    print('Predicted value: ',classifier.predict(X_test))
-
-    #Print Actual Label
-    print('Actual value: ',y_test.values)
 
     #Evaluate the model on the test data set
     pred = classifier.predict(X_test)
@@ -93,17 +57,12 @@ if __name__ == "__main__":
 
 
     #Create and train the LinearSVC classifier
-    classifier = LinearSVC(max_iter=10_000)
+    classifier = create_pipeline(LinearSVC(max_iter=10_000))
     classifier.fit(X_train, y_train)
 
     print("SVC")
     print()
 
-    #Print the predictions
-    print(classifier.predict(X_train))
-
-    #Print the actual values
-    print(y_train.values)
 
     #Evaluate the model on the training data set
     pred = classifier.predict(X_train)
@@ -111,12 +70,6 @@ if __name__ == "__main__":
     print('Confusion Matrix: \n',confusion_matrix(y_train,pred))
     print()
     print('Accuracy: ', accuracy_score(y_train,pred))
-
-    #Print the predictions
-    print('Predicted value: ',classifier.predict(X_test))
-
-    #Print Actual Label
-    print('Actual value: ',y_test.values)
 
     #Evaluate the model on the test data set
     pred = classifier.predict(X_test)
@@ -128,17 +81,11 @@ if __name__ == "__main__":
 
 
     #Create and train the SGDClassifier
-    classifier = SGDClassifier()
+    classifier = create_pipeline(SGDClassifier())
     classifier.fit(X_train, y_train)
 
     print("SGD")
     print()
-
-    #Print the predictions
-    print(classifier.predict(X_train))
-
-    #Print the actual values
-    print(y_train.values)
 
     #Evaluate the model on the training data set
     pred = classifier.predict(X_train)
@@ -146,12 +93,6 @@ if __name__ == "__main__":
     print('Confusion Matrix: \n',confusion_matrix(y_train,pred))
     print()
     print('Accuracy: ', accuracy_score(y_train,pred))
-
-    #Print the predictions
-    print('Predicted value: ',classifier.predict(X_test))
-
-    #Print Actual Label
-    print('Actual value: ',y_test.values)
 
     #Evaluate the model on the test data set
     pred = classifier.predict(X_test)
