@@ -32,6 +32,20 @@ class EncryptWindow(QMainWindow):
             your desired public.key file, then click 'Encrypt'""".replace("            ", ' ')
             )
 
+    def generateClick(self):
+        # Call function to generate key. For now, just prints "Generate" to console
+        print('Generate')
+        """
+        self.generateButton.setEnabled(False)
+        if os.path.exists(self.textbox.text()):
+            if key_generator(self.textbox.text(), self.checkBox.isChecked()):
+                self.successMethod()
+        else:
+            # give error message here
+            self.errorMethod()
+        self.generateButton.setEnabled(True)
+        """
+
     def __init__(self):
         QMainWindow.__init__(self)
 
@@ -47,14 +61,6 @@ class EncryptWindow(QMainWindow):
         self.textbox.resize(185, 30)
         self.textbox.setReadOnly(True)
 
-        # The browse files button
-        
-        """
-        self.button = QPushButton('Browse', self)
-        #self.button.setToolTip('This is an example button')
-        self.button.move(290, 20)
-        self.button.clicked.connect(self.on_click)
-        """
 
         # The label for the text box
         self.textLabel = QLabel(self)
@@ -67,32 +73,15 @@ class EncryptWindow(QMainWindow):
         self.messagebox.move(100, 60)
         self.messagebox.resize(185, 30)
 
-        # The label for the message box
-        """
-        self.messageLabel = QLabel(self)
-        self.messageLabel.setText('Plain Text:')
-        self.messageLabel.move(20, 60)
-
-        
-        # The encrypt button
-        
-        self.encryptButton = QPushButton('Encrypt', self)
-        self.encryptButton.move(290, 60)
-        self.encryptButton.clicked.connect(self.encryptClick)
-        """
-
         # The text area for the ciphertext
         self.cipherbox = QTextEdit(self)
         self.cipherbox. move(50, 20)
         self.cipherbox.resize(290, 130)
-        #self.cipherbox.setReadOnly(True)
 
-        # The label for the ecrypted ciphertext box
-        """
-        self.encryptLabel = QLabel(self)
-        self.encryptLabel.setText('Cipher Text:')
-        self.encryptLabel.move(20, 100)
-        """
+        # The button to generate the keys
+        self.generateButton = QPushButton('Score', self)
+        self.generateButton.move(150, 165)
+        self.generateButton.clicked.connect(self.generateClick)
 
         # The help option on the toolbar
         helpAct = QAction(QIcon('help.png'), '&Help', self)
@@ -108,10 +97,7 @@ class EncryptWindow(QMainWindow):
     # Overwriting the resizeEvent() function so that the proportions of the GUI
     # remain intact
     def resizeEvent(self, event):
-        #self.button.move(self.width() - 110, 20)
-        #self.encryptButton.move(self.width() - 110, 60)
-        #self.messagebox.resize(self.width() - 215, 30)
-        #self.textbox.resize(self.width() - 215, 30)
+        self.generateButton.move(self.width() / 3 - 50, self.height() - 75)
         self.cipherbox.resize(self.width() - 100, self.height() - 110)
         QMainWindow.resizeEvent(self, event)
 
