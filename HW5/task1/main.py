@@ -7,6 +7,9 @@ from PyQt5.QtGui import QIcon, QGuiApplication
 from PyQt5.QtCore import QSize
 from PyQt5.QtCore import pyqtSlot
 
+from predict import score_text
+from operationalize import identity
+
 class EncryptWindow(QMainWindow):
 
     # The function to select the desired file. Will be called when the user
@@ -15,12 +18,6 @@ class EncryptWindow(QMainWindow):
     def on_click(self):
         self.textbox.setText(QFileDialog.getOpenFileName(self, "Select File", "", "public.key")[0])
 
-    def encryptClick(self):
-        # Call function to encrypt message.
-        if os.path.exists(self.textbox.text()):
-            self.cipherbox.setText(encryption(self.messagebox.text(), self.textbox.text()))
-        else:
-            self.cipherbox.setText("Invalid file path")
 
     # The help message box function
     def helpMethod(self):
@@ -34,17 +31,9 @@ class EncryptWindow(QMainWindow):
 
     def generateClick(self):
         # Call function to generate key. For now, just prints "Generate" to console
-        print('Generate')
-        """
-        self.generateButton.setEnabled(False)
-        if os.path.exists(self.textbox.text()):
-            if key_generator(self.textbox.text(), self.checkBox.isChecked()):
-                self.successMethod()
-        else:
-            # give error message here
-            self.errorMethod()
-        self.generateButton.setEnabled(True)
-        """
+        if self.cipherbox.toPlainText() != "":
+            self.textbox.setText(score_text(self.cipherbox.toPlainText()))
+
 
     def __init__(self):
         QMainWindow.__init__(self)
