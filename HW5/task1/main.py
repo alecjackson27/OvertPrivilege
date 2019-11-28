@@ -36,7 +36,7 @@ class EncryptWindow(QMainWindow):
         QMainWindow.__init__(self)
 
         self.setMinimumSize(QSize(400, 240))
-        self.setWindowTitle("RSA Encryption")
+        self.setWindowTitle("Phishing Detector")
 
         centralWidget = QWidget(self)
         self.setCentralWidget(centralWidget)
@@ -48,15 +48,19 @@ class EncryptWindow(QMainWindow):
         self.textbox.setReadOnly(True)
 
         # The browse files button
+        
+        """
         self.button = QPushButton('Browse', self)
         #self.button.setToolTip('This is an example button')
         self.button.move(290, 20)
         self.button.clicked.connect(self.on_click)
+        """
 
         # The label for the text box
         self.textLabel = QLabel(self)
-        self.textLabel.setText('Public Key:')
-        self.textLabel.move(20, 20)
+        self.textLabel.setText('Email:')
+        self.textLabel.move(10, 20)
+        
 
         # The text box for the user's message
         self.messagebox = QLineEdit(self)
@@ -64,25 +68,31 @@ class EncryptWindow(QMainWindow):
         self.messagebox.resize(185, 30)
 
         # The label for the message box
+        """
         self.messageLabel = QLabel(self)
         self.messageLabel.setText('Plain Text:')
         self.messageLabel.move(20, 60)
 
+        
         # The encrypt button
+        
         self.encryptButton = QPushButton('Encrypt', self)
         self.encryptButton.move(290, 60)
         self.encryptButton.clicked.connect(self.encryptClick)
+        """
 
         # The text area for the ciphertext
         self.cipherbox = QTextEdit(self)
-        self.cipherbox. move(100, 100)
+        self.cipherbox. move(50, 20)
         self.cipherbox.resize(290, 130)
-        self.cipherbox.setReadOnly(True)
+        #self.cipherbox.setReadOnly(True)
 
         # The label for the ecrypted ciphertext box
+        """
         self.encryptLabel = QLabel(self)
         self.encryptLabel.setText('Cipher Text:')
         self.encryptLabel.move(20, 100)
+        """
 
         # The help option on the toolbar
         helpAct = QAction(QIcon('help.png'), '&Help', self)
@@ -98,11 +108,11 @@ class EncryptWindow(QMainWindow):
     # Overwriting the resizeEvent() function so that the proportions of the GUI
     # remain intact
     def resizeEvent(self, event):
-        self.button.move(self.width() - 110, 20)
-        self.encryptButton.move(self.width() - 110, 60)
-        self.messagebox.resize(self.width() - 215, 30)
-        self.textbox.resize(self.width() - 215, 30)
-        self.cipherbox.resize(self.width() - 110, self.height() - 110)
+        #self.button.move(self.width() - 110, 20)
+        #self.encryptButton.move(self.width() - 110, 60)
+        #self.messagebox.resize(self.width() - 215, 30)
+        #self.textbox.resize(self.width() - 215, 30)
+        self.cipherbox.resize(self.width() - 100, self.height() - 110)
         QMainWindow.resizeEvent(self, event)
 
     # Keeps the clipboard global on Windows and Mac. Linux requires clipboard manager.
