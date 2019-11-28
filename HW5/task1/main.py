@@ -27,9 +27,9 @@ class EncryptWindow(QMainWindow):
         QMessageBox.about(
             self,
             "Help",
-            """This program encrypts a message using a public key.\
-            Type the message in the top textfield and select\
-            your desired public.key file, then click 'Encrypt'""".replace("            ", ' ')
+            """This program ranks the probability of an email\
+            being a phishing attempt, from 0 to 3, with 3\
+            meaning the highest likelihood of phishing.""".replace("            ", ' ')
             )
 
     def generateClick(self):
