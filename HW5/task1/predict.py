@@ -32,11 +32,14 @@ def suspicious_url(text):
             if word in url:
                 return [1, -1]
     for url in urls:
-        if url[0:12] == 'https://www.':
+        if url[0:12] == 'https://www.' or url[0:12] == 'http://www3.':
             if url[12].isdigit():
                 return [1, 1]
         if url[0:13] == "https://www3.":
             if url[13].isdigit():
+                return [1, 1]
+        if url[0:11] == "http://www.":
+            if url[11].isdigit():
                 return [1, 1]
         if url[0:8] == 'https://':
             if url[8].isdigit():
