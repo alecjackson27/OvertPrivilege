@@ -22,14 +22,33 @@ class EncryptWindow(QMainWindow):
             meaning the highest likelihood of phishing.""".replace("            ", ' ')
             )
 
+    def tellWhy(self, message):
+        QMessageBox.about(
+            self,
+            "Warning",
+            message
+        )
+
     def generateClick(self):
         # Call function to generate score.
         if self.emailbox.toPlainText() != "":
+            message = ""
             classifier_score = score_text([self.emailbox.toPlainText()])
+            if classifier_score:
+                message += "Careful. One or more of our machine learning algorithms has classified this email as a phishing attempt."
             suspicious_score = suspicious_url(self.emailbox.toPlainText())
-            #if suspicious_score[0]:
-            #    print("yup")
+            if suspicious_score[0]:
+                if message == "":
+                    message = "Careful. This email contains a suspicious url"
+                else:
+                    message += " The email also contains a suspicious url"
+                if suspicious_score[1] < 0:
+                    message += " which contains a word such as update, login, or verify."
+                else:
+                    message += " which starts with a number."
             score = classifier_score + suspicious_score[0]
+            if message != "":
+                self.tellWhy(message)
             self.textbox.setText(str(score))
 
 
