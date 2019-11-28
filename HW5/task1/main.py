@@ -18,7 +18,7 @@ class EncryptWindow(QMainWindow):
             self,
             "Help",
             """This program ranks the probability of an email\
-            being a phishing attempt, from 0 to 4, with 4\
+            being a phishing attempt, from 0 to 5, with 5\
             meaning the highest likelihood of phishing.""".replace("            ", ' ')
             )
 
@@ -28,6 +28,18 @@ class EncryptWindow(QMainWindow):
             "Warning",
             message
         )
+
+    def suspicious_email(self, email):
+        atChar = email.find('@')
+        if atChar < 0:
+            return 0
+        else:
+            domain = email[atChar + 1:]
+            for char in domain:
+                if char.isdigit():
+                    return 1
+            return 0
+
 
     def generateClick(self):
         # Call function to generate score.
@@ -46,7 +58,13 @@ class EncryptWindow(QMainWindow):
                     message += " which contains a word such as update, login, or verify."
                 else:
                     message += " which starts with a number."
-            score = classifier_score + suspicious_score[0]
+            id_score = self.suspicious_email(self.addressbox.text())
+            if id_score:
+                if message == "":
+                    message = "Careful. The email domain of the ID is suspicious, as it contains one or more digits"
+                else:
+                    message += " The email domain of the ID is also suspicious, as it contains one or more digits"
+            score = classifier_score + suspicious_score[0] + id_score
             if message != "":
                 self.tellWhy(message)
             self.textbox.setText(str(score))
@@ -61,23 +79,28 @@ class EncryptWindow(QMainWindow):
         centralWidget = QWidget(self)
         self.setCentralWidget(centralWidget)
 
-        # The text box for the output score
-        self.textbox = QLineEdit(self)
-        self.textbox.move(100, 20)
-        self.textbox.resize(185, 30)
-        self.textbox.setReadOnly(True)
+        # The text box for the email ID
+        self.addressbox = QLineEdit(self)
+        self.addressbox.move(70, 20)
+        self.addressbox.resize(260, 30)
+        #self.textbox.setReadOnly(True)
+
+        # The label for the email ID box
+        self.addressLabel = QLabel(self)
+        self.addressLabel.setText('Email ID:')
+        self.addressLabel.move(10, 20)
 
 
         # The label for the email box
         self.textLabel = QLabel(self)
         self.textLabel.setText('Email:')
-        self.textLabel.move(10, 20)
+        self.textLabel.move(10, 70)
         
 
         # The text area for the email.
         self.emailbox = QTextEdit(self)
-        self.emailbox. move(50, 20)
-        self.emailbox.resize(290, 130)
+        self.emailbox. move(50, 70)
+        self.emailbox.resize(290, 80)
 
         # The button to generate the keys
         self.generateButton = QPushButton('Score:', self)
@@ -106,7 +129,7 @@ class EncryptWindow(QMainWindow):
     def resizeEvent(self, event):
         self.generateButton.move(self.width() / 3 - 50, self.height() - 75)
         self.textbox.move(2 * self.width() / 3 - 50, self.height() - 75)
-        self.emailbox.resize(self.width() - 100, self.height() - 110)
+        self.emailbox.resize(self.width() - 100, self.height() - 160)
         QMainWindow.resizeEvent(self, event)
 
     # Keeps the clipboard global on Windows and Mac. Linux requires clipboard manager.
