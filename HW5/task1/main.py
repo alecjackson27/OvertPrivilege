@@ -12,13 +12,6 @@ from operationalize import process_text, identity
 
 class EncryptWindow(QMainWindow):
 
-    # The function to select the desired file. Will be called when the user
-    # clicks the 'Browse' button
-    @pyqtSlot()
-    def on_click(self):
-        self.textbox.setText(QFileDialog.getOpenFileName(self, "Select File", "", "public.key")[0])
-
-
     # The help message box function
     def helpMethod(self):
         QMessageBox.about(
@@ -30,9 +23,9 @@ class EncryptWindow(QMainWindow):
             )
 
     def generateClick(self):
-        # Call function to generate key. For now, just prints "Generate" to console
-        if self.cipherbox.toPlainText() != "":
-            self.textbox.setText(str(score_text([self.cipherbox.toPlainText()])))
+        # Call function to generate score.
+        if self.emailbox.toPlainText() != "":
+            self.textbox.setText(str(score_text([self.emailbox.toPlainText()])))
 
 
     def __init__(self):
@@ -44,28 +37,23 @@ class EncryptWindow(QMainWindow):
         centralWidget = QWidget(self)
         self.setCentralWidget(centralWidget)
 
-        # The text box for the user's desired file
+        # The text box for the output score
         self.textbox = QLineEdit(self)
         self.textbox.move(100, 20)
         self.textbox.resize(185, 30)
         self.textbox.setReadOnly(True)
 
 
-        # The label for the text box
+        # The label for the email box
         self.textLabel = QLabel(self)
         self.textLabel.setText('Email:')
         self.textLabel.move(10, 20)
         
 
-        # The text box for the user's message
-        self.messagebox = QLineEdit(self)
-        self.messagebox.move(100, 60)
-        self.messagebox.resize(185, 30)
-
-        # The text area for the ciphertext
-        self.cipherbox = QTextEdit(self)
-        self.cipherbox. move(50, 20)
-        self.cipherbox.resize(290, 130)
+        # The text area for the email.
+        self.emailbox = QTextEdit(self)
+        self.emailbox. move(50, 20)
+        self.emailbox.resize(290, 130)
 
         # The button to generate the keys
         self.generateButton = QPushButton('Score:', self)
@@ -94,7 +82,7 @@ class EncryptWindow(QMainWindow):
     def resizeEvent(self, event):
         self.generateButton.move(self.width() / 3 - 50, self.height() - 75)
         self.textbox.move(2 * self.width() / 3 - 50, self.height() - 75)
-        self.cipherbox.resize(self.width() - 100, self.height() - 110)
+        self.emailbox.resize(self.width() - 100, self.height() - 110)
         QMainWindow.resizeEvent(self, event)
 
     # Keeps the clipboard global on Windows and Mac. Linux requires clipboard manager.
