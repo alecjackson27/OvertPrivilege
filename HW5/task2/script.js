@@ -25,10 +25,34 @@ class Scanner {
     }
 
     numEq() {
-        count = 0;
+        let count = 0;
         for (let i = 0; i < this.sql.length; i++) {
             if (this.sql[i] == '=') {
                 count++;
+            }
+        }
+        return count;
+    }
+
+    countOr() {
+        let count = 0;
+        for (let i = 0; i < this.sql.length; i++) {
+            if (this.sql[i].toLowerCase() == 'o') {
+                if (this.sql[i+1].toLowerCase() == 'r'){
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+    countAnd() {
+        let count = 0;
+        for (let i = 0; i < this.sql.length; i++) {
+            if (this.sql[i].toLowerCase() == 'a') {
+                if (this.sql[i+1].toLowerCase() == 'n' && this.sql[i+2].toLowerCase() == 'd'){
+                    count++;
+                }
             }
         }
         return count;
@@ -41,32 +65,54 @@ class Scanner {
             if (this.numEq() > 1) {
                 tautologies_flag = true;
                 this.results.score++;
-                this.results.description += 'This SQL likely includes a tautologies attack becas ';
+                this.results.description += 'This SQL likely includes a tautologies attack because it contains "="';
             }
         } else if (this.numEq() > 2){
             tautologies_flag = true;
             this.results.score++;
+            this.results.description += 'This SQL likely includes a tautologies attack because it contains "="';
         }
         if (this.sql.includes('<')) {
+            if (tautologies_flag){
+                this.results.description += ' and it contains "<"';
+            } else {
+                this.results.description += 'This SQL likely includes a tautologies attack because it contains "<"';
+            }
             tautologies_flag = true;
             this.results.score++;
         }
         if (this.sql.includes('>')) {
+            if (tautologies_flag){
+                this.results.description += ' and it contains ">"';
+            } else {
+                this.results.description += 'This SQL likely includes a tautologies attack because it contains ">"';
+            }
             tautologies_flag = true;
             this.results.score++;
         }
         if (tautologies_flag) {
             if (this.sql.includes('--')) {
                 this.results.score++;
+                this.results.description += ' and it contains "--"';
             }
-            if (this.sql.toLowerCase().includes('and')) {
+            if (this.sql.slice(0, 8) == "SELECT I") {
+                if (this.sql.toLowerCase().includes('and')) {
+                    this.results.score++;
+                    this.results.description += ' and it contains "and"';
+                }
+            } else if (this.countAnd() > 1) {
                 this.results.score++;
+                this.results.description += ' and it contains "or"';
             }
-            if (this.sql.toLowerCase().includes('or')) {
+            if (this.sql.slice(0, 8) == "SELECT I") {
+                if (this.sql.toLowerCase().includes('or')) {
+                    this.results.score++;
+                    this.results.description += ' and it contains "or"';
+                }
+            } else if (this.countOr() > 1) {
                 this.results.score++;
+                this.results.description += ' and it contains "or"';
             }
-            //alert(this.results.score)
-            this.results.description += 'This SQL likely includes a tautologies attack. ';
         }
     }
 
