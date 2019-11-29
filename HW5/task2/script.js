@@ -23,22 +23,18 @@ class Scanner {
 
     // tautologies scan
     tautologies() {
+        let tautologies_flag = false;
         if (this.sql.includes('=')) {
-            let indices = [];
-            for(let i=0; i < this.sql.length; i++) {
-                if (str[i] === '=') indices.push(i);
-            }
-            for (let i = 0; i < indices.length; i++) {
-                index = indices[i];
-                let tautologies_flag = false;
-                if (this.sql[i-1] === this.sql[i+1]){
-                    this.score++;
-                    tautologies_flag = true;
-                }
-            }
-            if (tautologies_flag) {
-                this.results.description += 'This SQL likely includes a tautologies attack. ';
-            }
+            tautologies_flag == true;
+            this.results.score++;
+        }
+        if (this.sql.includes('<')) {
+            tautologies_flag == true;
+            this.results.score++;
+        }
+        if (this.sql.includes('>')) {
+            tautologies_flag == true;
+            this.results.score++;
         }
     }
 
@@ -57,5 +53,19 @@ class Scanner {
     // inference scan
 
     // alternate encodings scan
+    alternateEncodings() {
+        let alternate_encoding_flag = false;
+        if (this.sql.toLowerCase().includes("char(")) {
+            this.results.score++;
+            alternate_encoding_flag = true;
+        }
+        if (this.sql.toLowerCase().includes("exec(")) {
+            this.results.score++;
+            alternate_encoding_flag = true;
+        }
+        if (alternate_encoding_flag) {
+            this.results.description += 'This SQL likely includes a alternate encoding attack. ';
+        }
+    }
 
 }
