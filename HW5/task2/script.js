@@ -16,8 +16,11 @@ class Scanner {
         // process sql and populate results class member
         this.piggyBack();
         this.tautologies();
-        //this.union();
-        //this.alternateEncodings();
+        this.union();
+        this.alternateEncodings();
+        if (this.results.score > 5) {
+            this.results.score = 5;
+        }
 
         resultsDiv.innerHTML = `<p>Score: ${this.results.score}</p><p>${this.results.description}</p>`;
     }
