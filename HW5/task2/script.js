@@ -36,6 +36,9 @@ class Scanner {
             tautologies_flag == true;
             this.results.score++;
         }
+        if (tautologies_flag) {
+            this.results.description += 'This SQL likely includes a tautologies attack. ';
+        }
     }
 
     // illegal/logically incorrect scan
