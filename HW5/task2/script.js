@@ -18,6 +18,7 @@ class Scanner {
         this.tautologies();
         this.union();
         this.alternateEncodings();
+        this.timingInference();
         if (this.results.score > 5) {
             this.results.score = 5;
         }
@@ -66,18 +67,18 @@ class Scanner {
             if (this.numEq() > 1) {
                 tautologies_flag = true;
                 this.results.score++;
-                this.results.description += 'This SQL likely includes a tautologies attack or an inference attack because it contains "="';
+                this.results.description += 'This SQL likely includes a tautologies attack or a blind inference attack because it contains "="';
             }
         } else if (this.numEq() > 2){
             tautologies_flag = true;
             this.results.score++;
-            this.results.description += 'This SQL likely includes a tautologies attack or an inference attack because it contains "="';
+            this.results.description += 'This SQL likely includes a tautologies attack or a blind inference attack because it contains "="';
         }
         if (this.sql.includes('<')) {
             if (tautologies_flag){
                 this.results.description += ' and it contains "<"';
             } else {
-                this.results.description += 'This SQL likely includes a tautologies attack or an inference attack because it contains "<"';
+                this.results.description += 'This SQL likely includes a tautologies attack or a blind inference attack because it contains "<"';
             }
             tautologies_flag = true;
             this.results.score++;
@@ -86,7 +87,7 @@ class Scanner {
             if (tautologies_flag){
                 this.results.description += ' and it contains ">"';
             } else {
-                this.results.description += 'This SQL likely includes a tautologies attack or an inference attack because it contains ">"';
+                this.results.description += 'This SQL likely includes a tautologies attack or a blind inference attack because it contains ">"';
             }
             tautologies_flag = true;
             this.results.score++;
@@ -114,6 +115,7 @@ class Scanner {
                 this.results.score++;
                 this.results.description += ' and it contains "or"';
             }
+            this.results.description += ". ";
         }
     }
 
@@ -147,6 +149,25 @@ class Scanner {
     }
 
     // inference scan
+    timingInference() {
+        if (this.sql.toLowerCase().includes("waitfor")) {
+            this.results.score++;
+            this.results.description += 'This SQL likely includes a timing inference attack because it contains "waitfor"';
+            if (this.sql.includes("--")) {
+                this.results.score++;
+                this.results.description += ' and it contains "--"';
+            }
+            if (this.sql.toLowerCase().includes("ascii")) {
+                this.results.score++;
+                this.results.description += ' and it contains "ascii"';
+            }
+            if (this.sql.toLowerCase().includes("substring")) {
+                this.results.score++;
+                this.results.description += ' and it contains "substring"';
+            }
+            this.results.description += '. ';
+        }
+    }
 
     // alternate encodings scan
     alternateEncodings() {
