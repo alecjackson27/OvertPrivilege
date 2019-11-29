@@ -3,11 +3,11 @@ class Scanner {
     constructor() {
         this.sql = '';
         this.results = {
-            score: '',
+            score: 0,
             description: ''
         };
 
-        document.getElementById('scanBtn').onclick = this.scanBox();
+        //document.getElementById('scanBtn').onclick = this.scanBox;
     }
 
     scanBox() {
@@ -17,6 +17,9 @@ class Scanner {
         
         // process sql and populate results class member
         this.piggyBack();
+        this.tautologies();
+        this.union();
+        this.alternateEncodings();
 
         resultsDiv.innerHTML = `<p>Score: ${this.results.score}</p><p>${this.results.description}</p>`;
     }
