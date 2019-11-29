@@ -6,8 +6,6 @@ class Scanner {
             score: 0,
             description: ''
         };
-
-        //document.getElementById('scanBtn').onclick = this.scanBox;
     }
 
     scanBox() {
