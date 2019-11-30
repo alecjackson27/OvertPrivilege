@@ -120,6 +120,22 @@ class Scanner {
     }
 
     // illegal/logically incorrect scan
+    illegal() {
+        let illegal_flag = false;
+        if (this.sql.toLowerCase().includes("convert")){
+            this.results.description += 'This SQL may contain an illegal/logically incorrect attack because it contains "convert"';
+            this.results.description++;
+            illegal_flag = true;
+        }
+        if (this.sql.includes('"')) {
+            if (illegal_flag) {
+                this.results.description += ' and "';
+            } else {
+                this.results.description += 'This SQL may contain an illegal/logically incorrect attack because it contains "';
+            }
+        }
+        this.results.description += '. ';
+    }
 
     // union scan
     union() {
@@ -139,10 +155,14 @@ class Scanner {
         if (this.sql.includes(';')) {
             this.results.score += 1; // not actually genuine score, don't know how I want to score things...
             this.results.description += 'This SQL likely includes a piggy-back attack because it contains ";"';
-            // If the sql also includes "--", it is even more likely to be an attack
+            // If the sql also includes "--" or "update", it is even more likely to be an attack
             if (this.sql.includes('--')) {
                 this.results.score += 1;
                 this.results.description += ' and "--"'
+            }
+            if (this.sql.toLowerCase().includes('update')) {
+                this.results.score += 1;
+                this.results.description += ' and "update"'
             }
             this.results.description += ". "
         }
