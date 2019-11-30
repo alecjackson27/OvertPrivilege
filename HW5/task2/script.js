@@ -125,7 +125,7 @@ class Scanner {
         let illegal_flag = false;
         if (this.sql.toLowerCase().includes("convert")){
             this.results.description += 'This SQL may contain an illegal/logically incorrect attack because it contains "convert"';
-            this.results.scort++;
+            this.results.score++;
             illegal_flag = true;
         }
         if (this.sql.includes('"')) {
