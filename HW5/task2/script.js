@@ -19,6 +19,7 @@ class Scanner {
         this.union();
         this.alternateEncodings();
         this.timingInference();
+        this.illegal();
         if (this.results.score > 5) {
             this.results.score = 5;
         }
@@ -124,10 +125,11 @@ class Scanner {
         let illegal_flag = false;
         if (this.sql.toLowerCase().includes("convert")){
             this.results.description += 'This SQL may contain an illegal/logically incorrect attack because it contains "convert"';
-            this.results.description++;
+            this.results.scort++;
             illegal_flag = true;
         }
         if (this.sql.includes('"')) {
+            this.results.score++;
             if (illegal_flag) {
                 this.results.description += ' and "';
             } else {
